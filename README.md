@@ -1,6 +1,6 @@
 # greenbrew
 
-The title is a tribute to sqlalchemy.
+The name is a tribute to sqlalchemy.
 
 ## Install
 
