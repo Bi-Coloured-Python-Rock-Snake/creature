@@ -8,7 +8,7 @@ pip install greenbrew
 
 ## Usage
 
-Suppose you have a function that is a part of your top-level API that at some point of time calls
+Suppose you have a function that is a part of your top-level API that at some point in time calls
 some deeply nested function:
 
 ```python
