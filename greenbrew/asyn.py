@@ -46,31 +46,17 @@ def green_spawn(fn):
 
 
 if __name__ == '__main__':
-    """
-    Here you can see how the legacy codebase using sync I/O
-    can be put to work in async context without a rewrite.
-    
-    In the example below `sleep` directly calls `sleep_impl`,
-    but `sleep_impl` actually can be any function that gets called at some time
-    that we want to replace with an async one.
-    """
+    @green_spawn
+    def sleep(t):
+        sleep_impl(t)
 
-    class Legacy:
+    # def sleep_impl(t):
+    #     time.sleep(t)
+    #     print(f'Slept for {t} seconds')
 
-        @green_spawn
-        def sleep(self, t):
-            self.sleep_impl(t)
+    @green_async
+    async def sleep_impl(t):
+        await asyncio.sleep(t)
+        print(f'Slept for {t} seconds')
 
-        # def sleep_impl(self, t):
-        #     time.sleep(t)
-        #     print(f'Slept for {t} seconds')
-
-        @green_async
-        async def sleep_impl(self, t):
-            await asyncio.sleep(t)
-            print(f'Slept for {t} seconds')
-
-
-    asyncio.run(
-        Legacy().sleep(2)
-    )
+    asyncio.run(sleep(2))

@@ -37,17 +37,13 @@ def green_spawn(fn):
 
 
 if __name__ == '__main__':
+    @green_spawn
+    def sleep(t):
+        sleep_impl(t)
 
-    class Legacy:
+    @green_async
+    def sleep_impl(t):
+        time.sleep(t)
+        print('Sync case is working too')
 
-        @green_spawn
-        def sleep(self, t):
-            self.sleep_impl(t)
-
-        @green_async
-        def sleep_impl(self, t):
-            time.sleep(t)
-            print('The sync case is supported too')
-
-
-    Legacy().sleep(2)
+    sleep(2)
