@@ -30,7 +30,7 @@ What we do:
 
 ```python
 import asyncio
-from greenbrew˚ import green_spawn, green_async
+from greenbrew import green_spawn, green_async
 
 @green_spawn
 def top_API_func():
