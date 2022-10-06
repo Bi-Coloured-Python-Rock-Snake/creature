@@ -14,7 +14,7 @@ class Task(typing.NamedTuple):
         return fn(*args, **kw)
 
 
-def green_await(fn):
+def green_async(fn):
     """
     Turns a coroutine function `fn` into a regular function
     by making a task out of it and sending it to the parent greenlet for execution.
@@ -27,11 +27,9 @@ def green_await(fn):
         try:
             spawning = current.spawning_greenlet
         except AttributeError:
-            raise Exception(
-                "not running inside a greenlet right now"
-            )
-        else:
-            task = Task(fn, args, kwargs)
-            return spawning.switch(task)
+            # not running inside a greenlet, executing it as-is
+            return fn(*args, **kwargs)
+        task = Task(fn, args, kwargs)
+        return spawning.switch(task)
 
     return wrapper

@@ -10,7 +10,7 @@ from functools import wraps
 
 import greenlet
 
-from greenbrew.base import green_await
+from greenbrew.base import green_async
 
 
 def green_spawn(fn):
@@ -65,7 +65,7 @@ if __name__ == '__main__':
         #     time.sleep(t)
         #     print(f'Slept for {t} seconds')
 
-        @green_await
+        @green_async
         async def sleep_impl(self, t):
             await asyncio.sleep(t)
             print(f'Slept for {t} seconds')

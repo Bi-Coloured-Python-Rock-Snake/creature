@@ -8,7 +8,7 @@ from functools import wraps
 
 import greenlet
 
-from greenbrew.base import green_await
+from greenbrew.base import green_async
 
 
 def green_spawn(fn):
@@ -44,7 +44,7 @@ if __name__ == '__main__':
         def sleep(self, t):
             self.sleep_impl(t)
 
-        @green_await
+        @green_async
         def sleep_impl(self, t):
             time.sleep(t)
             print('The sync case is supported too')
