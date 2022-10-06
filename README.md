@@ -10,8 +10,7 @@ pip install greenbrew
 
 ## Usage
 
-Suppose you have a function that is a part of your top-level API that at some point in time calls
-some deeply nested function:
+Here is how you can get from a sync API
 
 ```python
 import time
@@ -23,10 +22,12 @@ def top_API_func():
 
 def deeply_nested_func():
     time.sleep(1)
+
+if __name__ == '__main__':
+    top_API_func()
 ```
 
-Now suppose we want to replace that deeply nested function with an async one, and are ready to use the greenlet hack for it.
-What we do:
+to an async API
 
 ```python
 import asyncio
@@ -41,7 +42,10 @@ def top_API_func():
 @green_async
 async def deeply_nested_func():
     await asyncio.sleep(1)
+
+if __name__ == '__main__':
+    asyncio.run(top_API_func())
 ```
 
-That's it: you just decorate your function at the top-level and the one you replaced. Your code remains "synchronous" 
-(it just gets split between two greenlets: the sync part is executed in one greenlet and the async one in the other).
+By using two decorators! You just decorate the function at the top-level and the one you made async. Your code gets split between
+two greenlets: the sync part is executed in one greenlet and the async one in the other.
