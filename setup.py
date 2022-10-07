@@ -9,4 +9,5 @@ setup(name="greenbrew",
       description="greenbrew",
       long_description="greenbrew",
       license="MIT",
+      install_requires=['greenlet'],
       classifiers=())
