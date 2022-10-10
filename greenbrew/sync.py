@@ -15,7 +15,7 @@ def green_spawn(fn):
     @wraps(fn)
     def wrapper(*args, **kw):
         target = greenlet.greenlet(fn)
-        target.spawning_greenlet = greenlet.getcurrent()
+        target.other_greenlet = greenlet.getcurrent()
 
         target_return = target.switch(*args, **kw)
 
@@ -31,7 +31,7 @@ def green_spawn(fn):
                 else:
                     target_return = target.switch(result)
         finally:
-            target.spawning_greenlet = None
+            target.other_greenlet = None
 
     return wrapper
 

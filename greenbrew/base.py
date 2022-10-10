@@ -25,11 +25,11 @@ def green_async(fn):
         current = greenlet.getcurrent()
 
         try:
-            spawning = current.spawning_greenlet
+            other = current.other_greenlet
         except AttributeError:
             # not running inside a greenlet, executing it as-is
             return fn(*args, **kwargs)
         task = Task(fn, args, kwargs)
-        return spawning.switch(task)
+        return other.switch(task)
 
     return wrapper
