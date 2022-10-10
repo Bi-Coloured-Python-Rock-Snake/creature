@@ -19,22 +19,21 @@ async def main(target, target_return):
         target.other_greenlet = None
 
 
-def run(task):
-    asyncio.run(main(task))
-
-
-@green_async
-async def sleep(x):
-    await asyncio.sleep(x)
-    return x
-
-
-if __name__ == '__main__':
+def setup():
     current = greenlet.getcurrent()
 
     def run(task, current=current):
         asyncio.run(main(current, task))
 
     current.other_greenlet = greenlet.greenlet(run)
+
+
+if __name__ == '__main__':
+    setup()
+
+    @green_async
+    async def sleep(x):
+        await asyncio.sleep(x)
+        return x
 
     print(sleep(1.5))
