@@ -1,5 +1,7 @@
 """
-For comments see asyn.py
+A sync variant of shadow.reveal
+
+May be used for testing purposes.
 """
 
 import sys
@@ -8,10 +10,10 @@ from functools import wraps
 
 import greenlet
 
-from greenbrew.base import green_async
+from shadow.hide import hide
 
 
-def green_spawn(fn):
+def reveal(fn):
     @wraps(fn)
     def wrapper(*args, **kw):
         target = greenlet.greenlet(fn)
@@ -37,11 +39,11 @@ def green_spawn(fn):
 
 
 if __name__ == '__main__':
-    @green_spawn
+    @reveal
     def sleep(t):
         sleep_impl(t)
 
-    @green_async
+    @hide
     def sleep_impl(t):
         time.sleep(t)
         print('Sync case is working too')

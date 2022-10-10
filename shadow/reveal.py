@@ -10,14 +10,15 @@ from functools import wraps
 
 import greenlet
 
-from greenbrew.base import green_async
+from shadow.hide import hide
 
 
-def green_spawn(fn):
+def reveal(fn):
     """
-    Spawn function `fn` in a new greenlet.
-    The current greenlet becomes parent to the new one.
-    Async tasks are executed in the parent greenlet, and the results are sent to the child one.
+    Reveal the "async nature" of `fn` by returning a coroutine function.
+
+    We make a greenlet out of `fn`, the event loop being left outside,
+    in "current" greenlet.
     """
 
     @wraps(fn)
@@ -46,7 +47,7 @@ def green_spawn(fn):
 
 
 if __name__ == '__main__':
-    @green_spawn
+    @reveal
     def sleep(t):
         sleep_impl(t)
 
@@ -54,7 +55,7 @@ if __name__ == '__main__':
     #     time.sleep(t)
     #     print(f'Slept for {t} seconds')
 
-    @green_async
+    @hide
     async def sleep_impl(t):
         await asyncio.sleep(t)
         print(f'Slept for {t} seconds')

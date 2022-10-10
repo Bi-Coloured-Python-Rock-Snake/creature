@@ -31,17 +31,20 @@ to an async API
 
 ```python
 import asyncio
-from greenbrew import green_spawn, green_async
+from shadow import reveal, hide
 
-@green_spawn
+
+@reveal
 def top_API_func():
     ...
     deeply_nested_func()
     ...
 
-@green_async
+
+@hide
 async def deeply_nested_func():
     await asyncio.sleep(1)
+
 
 if __name__ == '__main__':
     asyncio.run(top_API_func())

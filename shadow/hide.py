@@ -14,10 +14,11 @@ class Task(typing.NamedTuple):
         return fn(*args, **kw)
 
 
-def green_async(fn):
+def hide(fn):
     """
-    Turns a coroutine function `fn` into a regular function
-    by making a task out of it and sending it to the parent greenlet for execution.
+    "Hide" the async implementation of fn.
+
+    Turns a coroutine function `fn` into a regular function.
     """
 
     @wraps(fn)
