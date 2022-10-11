@@ -1,7 +1,7 @@
 # shadow
 
-The package is responsible for the greenlet magic in the balrog project.
-The name was chosen to be consistent with balrogs.
+The package is responsible for the use of greenlets in the balrog project.
+Be ready to the magic. Don't be surprised.
 
 ## Install
 
@@ -32,19 +32,9 @@ async def download(url):
 
 Hidden async functions can be called like regular function (without `await`).
 
-**Note**
-
-For hidden functions to be actually hidden, the greenlet they execute in should have
-an `other_greenlet` attribute:
-
-```python
-greenlet.getcurrent().other_greenlet
-```
-
-Otherwise, `shadow.hide` is a no-op. That means that in principle,
-you can decorate your functions as hidden without too much worry.
-
-shadow has 2 modes of operation: **cast** and **reveal**.
+shadow has 2 modes of operation: **cast** and **reveal**. Actually, hidden functions
+retain their magic only if one of these modes are activated. Otherwise, the `hide` decorator
+is a no-op.
 
 **1. Casting a shadow**
 
