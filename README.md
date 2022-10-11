@@ -67,9 +67,9 @@ def myfunc():
     assert len(html) < 1024 * 1024
 ```
 
-`reveal` returns a coroutine function, so it can be run in an event loop.
+`reveal` returns a coroutine function, so you can run it in an event loop.
 
-This is the intended way of use: you write your code in sync-style, using hidden functions.
+This is the intended way of use, by the way: you write your code in sync style, using hidden functions.
 Then you pass the top-level function to `asyncio.run`:
 
 ```python
