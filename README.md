@@ -38,7 +38,7 @@ is a no-op.
 
 **1. Casting a shadow**
 
-You can cast a shadow. After that, you can use hidden functions as regular, as if they used sync I/O:
+You can cast a shadow. After that, you can actually use your hidden functions:
 
 ```python
 import shadow
@@ -48,10 +48,10 @@ assert sleep(1) == 1
 html = download('https://www.python.org/')
 ```
 
-Magic, isn't it?
+The code looks as if it was using sync I/O. Magic, isn't it?
 
 This mode of operation is the best fit for the REPL, when you don't have an event loop
-running. Actually, `cast` is a wrapper around `asyncio.run`.
+running. Actually, `shadow.cast` is a wrapper around `asyncio.run`.
 
 **2. Reveal a function**
 
