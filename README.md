@@ -17,7 +17,7 @@ The story is as follows: there functions with async implementations,
 that want to hide their async nature. Why? To be called like regular functions,
 without await.
 
-How do we hide a function? By using the `hide` decorator:
+How do we hide a function? By using a `hide` decorator:
 
 ```python
 import shadow
