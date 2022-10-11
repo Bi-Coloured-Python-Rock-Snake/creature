@@ -11,7 +11,7 @@ pip install balrog-shadow
 
 ## Usage
 
-**"Hiding" async functions**
+**"Hiding" (async) functions**
 
 With shadow, async functions can be hidden:
 
@@ -38,60 +38,48 @@ is a no-op.
 
 **1. Casting a shadow**
 
-You cast a shadow. After that all hidden functions remain hidden, that means,
-you can call them as regular functions:
+You cast a shadow. After that, you can use hidden functions as regular, as if they used sync I/O:
 
 ```python
 import shadow
 shadow.cast()
 
-assert 1 == sleep(1)
-assert len(download('https://www.python.org/')) > 10 * 1024
+assert sleep(1) == 1
+html = download('https://www.python.org/')
 ```
 
 Magic, isn't it?
 
+This mode of operation is the best fit for the REPL, when you don't have an event loop
+running. Actually, `cast` is a wrapper around `asyncio.run`.
+
 **2. Reveal a function**
 
-Sometimes you might want to
+If you don't want to cast a shadow, you have to reveal yourself at some point:
 
 ```python
-import time
+import shadow
 
-def top_API_func():
-    ...
-    deeply_nested_func()
-    ...
-
-def deeply_nested_func():
-    time.sleep(1)
-
-if __name__ == '__main__':
-    top_API_func()
+@shadow.reveal
+def myfunc():
+    sleep(0.1)
+    return download('https://www.python.org/')
 ```
 
-to an async API
+`reveal` makes a coroutine function out of a regular one, so it could be run in an event loop.
+
+For example, you have written all your code in sync-style, using hidden functions. Now you
+want to run the top-level function. You reveal it and pass to `asyncio.run`.
+
+In the code snippet above, `myfunc` becomes a coroutine function after wrapping.
+Actually, hide/reveal here don't make much sense, since we could use the initial `download` function.
+Actually, we still can:
 
 ```python
-import asyncio
-from shadow import reveal, hide
-
-
-@reveal
-def top_API_func():
-    ...
-    deeply_nested_func()
-    ...
-
-
-@hide
-async def deeply_nested_func():
-    await asyncio.sleep(1)
-
-
-if __name__ == '__main__':
-    asyncio.run(top_API_func())
+async def myfunc():
+    await sleep(0.1)
+    return await download('https://www.python.org/')
 ```
 
-By using two decorators! You just decorate the function at the top-level and the one you made async. Your code gets split between
-two greenlets: the sync part is executed in one greenlet and the async one in the other.
+This is the equivalent snippet of the previous one. As was said,
+`shadow.hide` is a no-op in this case.
