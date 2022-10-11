@@ -70,7 +70,7 @@ def myfunc():
 `reveal` returns a coroutine function, so you can run it in an event loop.
 
 This is the intended way of use, by the way: you write your code in sync style, using hidden functions.
-Then you pass the top-level function to `asyncio.run`:
+Then you reveal the top-level function and pass it to `asyncio.run`:
 
 ```python
 asyncio.run(myfunc())
