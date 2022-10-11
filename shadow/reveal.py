@@ -17,7 +17,7 @@ def reveal(fn):
     """
     Reveal the "async nature" of `fn` by returning a coroutine function.
 
-    We make a greenlet out of `fn`, the event loop being left outside,
+    We make a new greenlet out of `fn`, the event loop being left outside,
     in "current" greenlet.
     """
 
