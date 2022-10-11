@@ -30,7 +30,7 @@ async def download(url):
         return await resp.aread()
 ```
 
-Hidden async functions can be called like regular function (without `await`).
+Hidden functions can be called like regular function (without await).
 
 shadow has 2 modes of operation: **cast** and **reveal**. Actually, hidden functions
 retain their magic only if one of these modes are activated. Otherwise, the `hide` decorator
