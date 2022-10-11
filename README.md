@@ -11,7 +11,7 @@ pip install balrog-shadow
 
 ## Usage
 
-**"Hiding" (async) functions**
+**"Hiding" async functions**
 
 With shadow, async functions can be hidden:
 
