@@ -53,8 +53,8 @@ html = download('https://www.python.org/')
 
 The code looks as if it was using sync I/O, but it isn't. Magic, isn't it?
 
-This mode of operation is the best fit for the REPL, when you don't have an event loop
-running.
+This mode of operation will be the best fit for the REPL, when you don't have
+a running event loop.
 
 **2. Reveal a function**
 
