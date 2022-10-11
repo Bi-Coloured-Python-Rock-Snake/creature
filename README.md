@@ -41,7 +41,7 @@ Ok, the functions are marked as hidden. However, that is not enough
 
 **1. Casting a shadow**
 
-You can cast a shadow. The one your functions can be safely hidden in.
+You can cast a shadow. The one your functions can be safely hidden in:
 
 ```python
 import shadow
