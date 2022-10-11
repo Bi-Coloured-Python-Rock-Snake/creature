@@ -48,14 +48,9 @@ if __name__ == '__main__':
     @hide
     async def download(url, file='file.html'):
         import httpx
-        count = 0
         async with httpx.AsyncClient() as client:
             resp = await client.get(url)
-            with open(file, 'wb') as f:
-                async for chunk in resp.aiter_bytes():
-                    f.write(chunk)
-                    count += len(chunk)
-        return count
+            return len(resp.aread())
 
     print(sleep(0.5))
-    print(download('https://www.python.org/'))
+    # print(download('https://www.python.org/'))
