@@ -34,7 +34,7 @@ async def download(url):
         return await resp.aread()
 ```
 
-Ok, the functions are marked now as hidden. However, that is not enough
+Ok, the functions are marked as hidden. However, that is not enough
 (we must provide a shadow for them!)
 
 *shadow* provides 2 modes of operation: **cast** and **reveal**.
