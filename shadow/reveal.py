@@ -51,10 +51,6 @@ if __name__ == '__main__':
     def sleep(t):
         sleep_impl(t)
 
-    # def sleep_impl(t):
-    #     time.sleep(t)
-    #     print(f'Slept for {t} seconds')
-
     @hide
     async def sleep_impl(t):
         await asyncio.sleep(t)
