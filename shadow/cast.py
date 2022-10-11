@@ -21,12 +21,11 @@ async def _loop(out, task):
 
 def cast():
     """
-    Cast a shadow.
-    This is a magic call, after which synchronously-looking calls
-    (having a "hidden" implementation)
+    Cast a shadow. After this call,
+    synchronously-looking calls to "hidden" functions
     start to execute asynchronously.
 
-    We make a greenlet and run the event loop in it.
+    We make a new greenlet and run the event loop in it.
     All the code after `cast()` stays on the outside, in "current" greenlet.
     """
     current = greenlet.getcurrent()
@@ -53,4 +52,4 @@ if __name__ == '__main__':
             return len(resp.aread())
 
     print(sleep(0.5))
-    # print(download('https://www.python.org/'))
+    print(download('https://www.python.org/'))
