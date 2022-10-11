@@ -88,5 +88,5 @@ async def myfunc():
     return await download('https://www.python.org/')
 ```
 
-This is the equivalent. Since you are not using neither `cast` nor `reveal`,
+This is the equivalent. Since we are not using neither `cast` nor `reveal`,
 `shadow.hide` is a no-op in this case.
