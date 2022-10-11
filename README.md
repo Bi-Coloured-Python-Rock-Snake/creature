@@ -51,7 +51,7 @@ html = download('https://www.python.org/')
 The code looks as if it was using sync I/O. Magic, isn't it?
 
 This mode of operation is the best fit for the REPL, when you don't have an event loop
-running. Actually, `shadow.cast` is a wrapper around `asyncio.run`.
+running.
 
 **2. Reveal a function**
 
