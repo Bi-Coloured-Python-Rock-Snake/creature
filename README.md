@@ -20,14 +20,14 @@ without await.
 How do we hide a function? By using a `hide` decorator:
 
 ```python
-import shadow
+from shadow import hide
 
-@shadow.hide
+@hide
 async def sleep(secs):
     await asyncio.sleep(secs)
     return secs
 
-@shadow.hide
+@hide
 async def download(url):
     async with httpx.AsyncClient() as client:
         resp = await client.get(url)
@@ -62,9 +62,9 @@ running.
 If you don't want to cast a shadow, you'll have to reveal your functions at some point:
 
 ```python
-import shadow
+from shadow import reveal
 
-@shadow.reveal
+@reveal
 def myfunc():
     sleep(0.1)
     html = download('https://www.python.org/')
