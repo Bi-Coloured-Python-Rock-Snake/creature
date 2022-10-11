@@ -23,25 +23,25 @@ def reveal(fn):
 
     @wraps(fn)
     async def wrapper(*args, **kw):
-        target = greenlet.greenlet(fn)
-        target.other_greenlet = greenlet.getcurrent()
+        new_greenlet = greenlet.greenlet(fn)
+        new_greenlet.other_greenlet = greenlet.getcurrent()
 
-        # this may be either a task or the final result
-        target_return = target.switch(*args, **kw)
+        task = new_greenlet.switch(*args, **kw)
 
         try:
             while True:
-                if not target:
-                    return target_return
+                if not new_greenlet:
+                    # Then this is the final result
+                    return task
 
                 try:
-                    result = await target_return()
+                    result = await task()
                 except:
-                    target_return = target.throw(*sys.exc_info())
+                    task = new_greenlet.throw(*sys.exc_info())
                 else:
-                    target_return = target.switch(result)
+                    task = new_greenlet.switch(result)
         finally:
-            target.other_greenlet = None
+            new_greenlet.other_greenlet = None
 
     return wrapper
 

@@ -16,24 +16,24 @@ from shadow.hide import hide
 def reveal(fn):
     @wraps(fn)
     def wrapper(*args, **kw):
-        target = greenlet.greenlet(fn)
-        target.other_greenlet = greenlet.getcurrent()
+        new_greenlet = greenlet.greenlet(fn)
+        new_greenlet.other_greenlet = greenlet.getcurrent()
 
-        target_return = target.switch(*args, **kw)
+        task = new_greenlet.switch(*args, **kw)
 
         try:
             while True:
-                if not target:
-                    return target_return
+                if not new_greenlet:
+                    return task
 
                 try:
-                    result = target_return()
+                    result = task()
                 except:
-                    target_return = target.throw(*sys.exc_info())
+                    task = new_greenlet.throw(*sys.exc_info())
                 else:
-                    target_return = target.switch(result)
+                    task = new_greenlet.switch(result)
         finally:
-            target.other_greenlet = None
+            new_greenlet.other_greenlet = None
 
     return wrapper
 
