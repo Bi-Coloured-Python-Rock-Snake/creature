@@ -38,7 +38,7 @@ is a no-op.
 
 **1. Casting a shadow**
 
-You cast a shadow. After that, you can use hidden functions as regular, as if they used sync I/O:
+You can cast a shadow. After that, you can use hidden functions as regular, as if they used sync I/O:
 
 ```python
 import shadow
