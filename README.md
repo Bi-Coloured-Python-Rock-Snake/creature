@@ -39,7 +39,7 @@ Ok, the functions are marked as hidden. However, that is not enough
 
 *shadow* provides 2 modes of operation: **cast** and **reveal**.
 
-**1. Casting a shadow**
+**1. Cast a shadow**
 
 You can cast a shadow. The one your functions can be safely hidden in:
 
