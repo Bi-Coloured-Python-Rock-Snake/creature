@@ -45,4 +45,17 @@ if __name__ == '__main__':
         await asyncio.sleep(x)
         return x
 
-    print(sleep(1.5))
+    @hide
+    async def download(url, file='file.html'):
+        import httpx
+        count = 0
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(url)
+            with open(file, 'wb') as f:
+                async for chunk in resp.aiter_bytes():
+                    f.write(chunk)
+                    count += len(chunk)
+        return count
+
+    print(sleep(0.5))
+    print(download('https://www.python.org/'))
