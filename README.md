@@ -67,16 +67,16 @@ def myfunc():
     assert len(html) < 1024 * 1024
 ```
 
-`reveal` makes a coroutine function out of a regular one, so it could be run in an event loop.
+`reveal` returns a coroutine function, so it can be run in an event loop.
 
-For example, you have written all your code in sync-style, using hidden functions. Now you
-want to run the top-level function. You reveal it and pass to `asyncio.run`:
+This is the intended way of use: you write your code in sync-style, using hidden functions.
+Then you pass the top-level function to `asyncio.run`:
 
 ```python
 asyncio.run(myfunc())
 ```
 
-Actually, hide/reveal doesn't make much sense here, since you could just use
+Actually, hide/reveal doesn't make much sense for this snippet, since you could just use
 the initial `download` function. Actually, you still can:
 
 ```python
@@ -85,4 +85,4 @@ async def myfunc():
     return await download('https://www.python.org/')
 ```
 
-This is the equivalent snippet. As I said, `shadow.hide` is a no-op in this case.
+This is the equivalent. As I said, `shadow.hide` is a no-op in this case.
