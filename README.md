@@ -37,7 +37,7 @@ async def download(url):
 Ok, the functions are marked as hidden. However, that is not enough
 (we must provide a shadow for them!)
 
-*shadow* provides 2 modes of operation: **cast** and **reveal**.
+*shadow* has 2 modes of operation: **cast** and **reveal**.
 
 **1. Cast a shadow**
 
