@@ -46,7 +46,7 @@ if __name__ == '__main__':
         return x
 
     @hide
-    async def download(url, file='file.html'):
+    async def download(url):
         import httpx
         async with httpx.AsyncClient() as client:
             resp = await client.get(url)
