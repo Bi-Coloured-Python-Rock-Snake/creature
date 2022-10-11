@@ -13,7 +13,7 @@ pip install balrog-shadow
 
 **Functions hiding in the shadow**
 
-The story is as follows: there functions with async implementations,
+The story is as follows: there are functions with async implementations,
 that want to hide their async nature. Why? To be called like regular functions,
 without await.
 
