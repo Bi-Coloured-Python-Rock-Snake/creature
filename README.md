@@ -30,15 +30,17 @@ async def download(url):
         return await resp.aread()
 ```
 
-Hidden async functions can be called like regular function (without `await`) - under certain
-condition: the greenlet they execute in, should have an `.other_greenlet`
+Hidden async functions can be called like regular function (without `await`).
+However, a condition should to be met: the greenlet they execute in should have an `other_greenlet`
 attribute:
 
 ```python
 greenlet.getcurrent().other_greenlet
 ```
 
-Unless that condition is met, `shadow.hide` is a no-op. That means that in principle,
+This way, hidden functions know where to send the async tasks for execution.
+
+If the `other_greenlet` attribute is missing, `shadow.hide` is a no-op. That means that in principle,
 you can decorate your functions as hidden without any worries.
 
 shadow has 2 modes of operation: cast and reveal.
