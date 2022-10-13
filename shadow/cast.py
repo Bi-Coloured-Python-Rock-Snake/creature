@@ -36,6 +36,9 @@ def cast():
     current.other_greenlet = greenlet.greenlet(run)
 
 
+twilight = darkness = cast
+
+
 if __name__ == '__main__':
     cast()
 
