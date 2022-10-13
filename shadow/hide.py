@@ -14,23 +14,30 @@ class Task(typing.NamedTuple):
         return fn(*args, **kw)
 
 
-def hide(fn):
+def shadow(*, cb=None):
     """
     "Hide" the async implementation of fn.
 
     Turns a coroutine function `fn` into a regular function.
     """
 
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        current = greenlet.getcurrent()
+    def decorate(fn):
+        @wraps(fn)
+        def shadow_fn(*args, **kwargs):
+            current = greenlet.getcurrent()
 
-        try:
-            other = current.other_greenlet
-        except AttributeError:
-            # not running inside a greenlet, executing it as-is
-            return fn(*args, **kwargs)
-        task = Task(fn, args, kwargs)
-        return other.switch(task)
+            try:
+                other = current.other_greenlet
+            except AttributeError:
+                # not running inside a greenlet, executing it as-is
+                return fn(*args, **kwargs)
+            if cb:
+                cb(*args, **kwargs)
+            task = Task(fn, args, kwargs)
+            return other.switch(task)
 
-    return wrapper
+        return shadow_fn
+
+    return decorate
+
+hide = shadow()

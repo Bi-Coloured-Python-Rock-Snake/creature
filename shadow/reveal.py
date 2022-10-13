@@ -10,7 +10,7 @@ from functools import wraps
 
 import greenlet
 
-from shadow.hide import hide
+from shadow.hide import hide, shadow
 
 
 def reveal(fn):
@@ -22,7 +22,7 @@ def reveal(fn):
     """
 
     @wraps(fn)
-    async def wrapper(*args, **kw):
+    async def revealed_fn(*args, **kw):
         new_greenlet = greenlet.greenlet(fn)
         new_greenlet.other_greenlet = greenlet.getcurrent()
 
@@ -43,7 +43,7 @@ def reveal(fn):
         finally:
             new_greenlet.other_greenlet = None
 
-    return wrapper
+    return revealed_fn
 
 
 if __name__ == '__main__':
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     def sleep(t):
         sleep_impl(t)
 
-    @hide
+    @shadow()
     async def sleep_impl(t):
         await asyncio.sleep(t)
         print(f'Slept for {t} seconds')
