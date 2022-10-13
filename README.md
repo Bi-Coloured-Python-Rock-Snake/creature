@@ -93,6 +93,6 @@ This is the equivalent. Since we are not using neither `cast` nor `reveal`,
 
 **Please help with naming**
 
-The current API (hide/reveal/cast) is half a joke, and be changed some time
+The current API (hide/reveal/cast) is half a joke, and will be changed some time
 in the future. If naming things is indeed one of programmer's most required skills,
 show yours by suggesting the new names in [this issue](https://github.com/balrogproject/shadow/issues/1).
