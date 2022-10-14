@@ -1,96 +1,81 @@
-# shadow
+# greenhack
 
-The package is responsible for the use of greenlets in the balrog project.
-Be ready to the magic. Don't be surprised.
+The package implements the greenlet hack that allows to use the async I/O
+without the need to use the async/await keywords.
+
+The hack is best known from its use in sqlalchemy for enabling
+the async database drivers like asyncpg.
 
 ## Install
 
 ```
-pip install balrog-shadow
+pip install greenhack
 ```
 
 ## Usage
 
-**Functions hiding in the shadow**
+**The exempt decorator**
 
-The story is as follows: there are functions with async implementations,
-that want to hide their async nature. Why? To be called like regular functions,
-without await.
+Here is how the greenlet magic works: the code is split between two greenlets. The async
+code goes in the second greenlet, the one where the event loop is being run.
 
-How do we hide a function? By using a `hide` decorator:
+The async coroutine function, decorated with @exempt,
+makes the coroutine be exempted from the current greenlet and be executed in the
+async greenlet. An example:
 
 ```python
 from greenhack import exempt
-
 
 @exempt
 async def sleep(secs):
     await asyncio.sleep(secs)
     return secs
-
-
-@exempt
-async def download(url):
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(url)
-        return await resp.aread()
 ```
 
-However, it is not enough to mark functions as hidden
-(we must provide a shadow for them!)
+However, in order for exempted coroutine to be able to be executed as a regular
+function, that should be enabled by the further code. There are 2 ways of doing that:
 
-*shadow* has 2 modes of operation: **cast** and **reveal**.
+**1. start_loop**
 
-**1. Cast a shadow**
-
-You can cast a shadow. The one your functions can be safely hidden in:
+Start an event loop to execute exempted coroutines in it. Suits cases when the loop
+is not running already (for example, when you launched REPL):
 
 ```python
 import greenhack
 
-greenhack.start_loop()
+@greenhack.exempt
+async def download(url):
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(url)
+        return await resp.aread()
 
-assert sleep(1) == 1
-html = download('https://www.python.org/')
+if __name__ = '__main__':
+    greenhack.start_loop()
+    
+    assert sleep(1) == 1
+    html = download('https://www.python.org/')
 ```
 
-The code looks as if it was using sync I/O, but it isn't. Magic, isn't it?
+This code looks as if it is using sync I/O, but it isn't. Magic, isn't it?
 
-This mode of operation fits best for the REPL, when you don't have
-an event loop running.
+**2. as_async decorator**
 
-**2. Reveal a function**
-
-If you don't want to cast a shadow, you'll have to reveal your functions at some point:
+Another way is decorating the top function with `@as_async`.
+In that case, awaiting the resultant coroutine will lead to
+executing of the exempted coroutines as well:
 
 ```python
 from greenhack import as_async
-
 
 @as_async
 def myfunc():
     sleep(0.1)
     html = download('https://www.python.org/')
     assert len(html) < 1024 * 1024
+
+if __name__ == '__main__':
+    asyncio.run(myfunc())
 ```
 
-`myfunc` is a coroutine function now, so it can be run with `asyncio.run`.
-
-This is the intended way of use, by the way: you write your code in sync style, using hidden functions.
-Then you reveal the top-level function and run it:
-
-```python
-asyncio.run(myfunc())
-```
-
-Actually, hide/reveal doesn't make much sense for this snippet, since you could just use
-the initial `download` function. Actually, you still can:
-
-```python
-async def myfunc():
-    await sleep(0.1)
-    return await download('https://www.python.org/')
-```
-
-This is the equivalent. Since we are not using neither `cast` nor `reveal`,
-`shadow.hide` is a no-op in this case.
+This is the most expected way of use: you write your code using sync-style calls,
+then you wrap the top function and pass it to whatever async runner you have.
