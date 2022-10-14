@@ -20,14 +20,16 @@ without await.
 How do we hide a function? By using a `hide` decorator:
 
 ```python
-from shadow import hide
+from greenhack import exempt
 
-@hide
+
+@exempt
 async def sleep(secs):
     await asyncio.sleep(secs)
     return secs
 
-@hide
+
+@exempt
 async def download(url):
     async with httpx.AsyncClient() as client:
         resp = await client.get(url)
@@ -44,8 +46,9 @@ However, it is not enough to mark functions as hidden
 You can cast a shadow. The one your functions can be safely hidden in:
 
 ```python
-import shadow
-shadow.cast()
+import greenhack
+
+greenhack.start_loop()
 
 assert sleep(1) == 1
 html = download('https://www.python.org/')
@@ -61,9 +64,10 @@ an event loop running.
 If you don't want to cast a shadow, you'll have to reveal your functions at some point:
 
 ```python
-from shadow import reveal
+from greenhack import as_async
 
-@reveal
+
+@as_async
 def myfunc():
     sleep(0.1)
     html = download('https://www.python.org/')
@@ -90,9 +94,3 @@ async def myfunc():
 
 This is the equivalent. Since we are not using neither `cast` nor `reveal`,
 `shadow.hide` is a no-op in this case.
-
-**Please help with naming**
-
-The current API (hide/reveal/cast) is half a joke, and will be changed some time
-in the future. If naming things is indeed one of programmer's most required skills,
-show yours by suggesting the new names in [this issue](https://github.com/balrogproject/shadow/issues/1).

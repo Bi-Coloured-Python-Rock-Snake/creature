@@ -1,21 +1,22 @@
-"""
-A sync variant of shadow.reveal
-
-May be used for testing purposes.
-"""
-
+import asyncio
 import sys
-import time
+
 from functools import wraps
 
 import greenlet
 
-from shadow.hide import hide
+from greenhack.exempt import exempt
 
 
-def reveal(fn):
+def as_async(fn):
+    """
+    Make a coroutine function out of fn.
+
+    Awaiting it will execute all the exempted tasks.
+    """
+
     @wraps(fn)
-    def wrapper(*args, **kw):
+    async def async_fn(*args, **kw):
         new_greenlet = greenlet.greenlet(fn)
         new_greenlet.other_greenlet = greenlet.getcurrent()
 
@@ -24,10 +25,11 @@ def reveal(fn):
         try:
             while True:
                 if not new_greenlet:
+                    # Then this is the final result
                     return task
 
                 try:
-                    result = task()
+                    result = await task()
                 except:
                     task = new_greenlet.throw(*sys.exc_info())
                 else:
@@ -35,17 +37,17 @@ def reveal(fn):
         finally:
             new_greenlet.other_greenlet = None
 
-    return wrapper
+    return async_fn
 
 
 if __name__ == '__main__':
-    @reveal
+    @as_async
     def sleep(t):
         sleep_impl(t)
 
-    @hide
-    def sleep_impl(t):
-        time.sleep(t)
-        print('Sync case is working too')
+    @exempt
+    async def sleep_impl(t):
+        await asyncio.sleep(t)
+        print(f'Slept for {t} seconds')
 
-    sleep(2)
+    asyncio.run(sleep(2))

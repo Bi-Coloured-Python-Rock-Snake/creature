@@ -14,10 +14,12 @@ class Task(typing.NamedTuple):
         return fn(*args, **kw)
 
 
-def shadow(fn=None, *, cb=None):
+def exempt(fn=None, *, cb=None):
     """
-    Make fn a shadowed function.
-    (turns a coroutine function `fn` into a regular function)
+    A coroutine produced by `fn` is exempted from the current greenlet
+    and will be executed in another greenlet (the one with an event loop).
+
+    After decorating, a coroutine function `fn` is turned into a regular function.
     """
 
     def decorate(fn):
@@ -39,5 +41,3 @@ def shadow(fn=None, *, cb=None):
 
     return decorate(fn) if fn else decorate
 
-
-hide = shadow

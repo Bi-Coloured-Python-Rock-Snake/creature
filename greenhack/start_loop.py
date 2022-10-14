@@ -3,7 +3,7 @@ import sys
 
 import greenlet
 
-from shadow.hide import hide
+from greenhack.exempt import exempt
 
 
 async def _loop(out, task):
@@ -19,14 +19,10 @@ async def _loop(out, task):
         out.other_greenlet = None
 
 
-def cast():
+def start_loop():
     """
-    Cast a shadow. After this call,
-    synchronously-looking calls to "hidden" functions
-    start to execute asynchronously.
-
-    We make a new greenlet and run the event loop in it.
-    All the code after `cast()` stays on the outside, in "current" greenlet.
+    Start an event loop in a new greenlet that will execute
+    the exempted coroutines.
     """
     current = greenlet.getcurrent()
 
@@ -36,18 +32,16 @@ def cast():
     current.other_greenlet = greenlet.greenlet(run)
 
 
-twilight = darkness = cast
-
 
 if __name__ == '__main__':
-    cast()
+    start_loop()
 
-    @hide
+    @exempt
     async def sleep(x):
         await asyncio.sleep(x)
         return x
 
-    @hide
+    @exempt
     async def download(url):
         import httpx
         async with httpx.AsyncClient() as client:
