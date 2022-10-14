@@ -14,11 +14,10 @@ class Task(typing.NamedTuple):
         return fn(*args, **kw)
 
 
-def shadow(*, cb=None):
+def shadow(fn=None, *, cb=None):
     """
-    "Hide" the async implementation of fn.
-
-    Turns a coroutine function `fn` into a regular function.
+    Make fn a shadowed function.
+    (turns a coroutine function `fn` into a regular function)
     """
 
     def decorate(fn):
@@ -38,6 +37,7 @@ def shadow(*, cb=None):
 
         return shadow_fn
 
-    return decorate
+    return decorate(fn) if fn else decorate
+
 
 hide = shadow()

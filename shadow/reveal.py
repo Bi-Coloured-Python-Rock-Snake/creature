@@ -51,7 +51,7 @@ if __name__ == '__main__':
     def sleep(t):
         sleep_impl(t)
 
-    @shadow()
+    @shadow
     async def sleep_impl(t):
         await asyncio.sleep(t)
         print(f'Slept for {t} seconds')
