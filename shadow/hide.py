@@ -40,4 +40,4 @@ def shadow(fn=None, *, cb=None):
     return decorate(fn) if fn else decorate
 
 
-hide = shadow()
+hide = shadow
