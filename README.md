@@ -1,10 +1,14 @@
 # greenhack
 
-The package implements the greenlet hack that allows to use the async I/O
-without the need to use the async/await keywords.
+The package allows you to use the async I/O
+without the need for async/await keywords. In other words,
+it lets you write the code as if it was synchronous,
+when in fact, it is not.
 
-The hack is best known from its use in sqlalchemy for enabling
-the async database drivers like asyncpg.
+This is done via the greenlet hack,
+that is best known from its use in sqlalchemy.
+
+
 
 ## Install
 
@@ -13,6 +17,20 @@ pip install greenhack
 ```
 
 ## Usage
+
+**Greenlets**
+
+[greenlets](https://greenlet.readthedocs.io)
+are created from python functions. You can explicitly switch from one
+greenlet to another, in that case, the execution of the first greenlet is stopped
+until some greenlet switches back into it. Python generators on steroids,
+to put it simple.
+
+In order to do our trick, we will require just 2 greenlets, a sync one and an async one.
+The event loop will be running in the async greenlet.
+We will be switching to the async greenlet every time we encounter a coroutine.
+For that purpose, every async coroutine function should be decorated with
+`@exempt`.
 
 **The exempt decorator**
 
