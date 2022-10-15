@@ -1,6 +1,6 @@
 # greenhack
 
-Thш package allows you to use the async I/O,
+This package allows you to use the async I/O,
 without the need for async/await keywords. In other words,
 it lets you write the code as if it was synchronous,
 when in fact, it is not.
