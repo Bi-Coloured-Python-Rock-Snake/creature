@@ -1,12 +1,12 @@
 # greenhack
 
-The package allows you to use the async I/O
+Thш package allows you to use the async I/O,
 without the need for async/await keywords. In other words,
 it lets you write the code as if it was synchronous,
 when in fact, it is not.
 
 This is done via the greenlet hack,
-that is best known from its use in sqlalchemy.
+which is best known from its use in sqlalchemy.
 
 
 
@@ -107,4 +107,4 @@ Also, this may help to work with existing/legacy code. For example, adding the
 `start_loop()` line to `manage.py` (a django-specific script) makes all of the
 django cli work like a charm (with an async database driver!)
 
-Happy hacking!
+Good luck!
