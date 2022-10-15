@@ -92,24 +92,19 @@ alternative to it that is shown below).
 
 **2. start_loop**
 
-Start an event loop to execute exempted coroutines in it. Suits cases when the loop
-is not running already (for example, when you launched REPL):
+You can also start an event loop yourself, the one that will run the
+exempted coroutines. An example, when that may be useful, is Python REPL:
 
 ```python
 import greenhack
+greenhack.start_loop()
 
-@greenhack.exempt
-async def download(url):
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(url)
-        return await resp.aread()
-
-if __name__ = '__main__':
-    greenhack.start_loop()
-    
-    assert sleep(1) == 1
-    html = download('https://www.python.org/')
+assert sleep(1) == 1
+resp = download('https://www.python.org/')
 ```
 
-This code looks as if it is using sync I/O, but it isn't. Magic, isn't it?
+Also, this may help to work with existing/legacy code. For example, adding
+`start_loop()` to `manage.py` (a django-specific script) makes all of the
+django cli work like a charm (with an async database driver!)
 
+Happy hacking!
