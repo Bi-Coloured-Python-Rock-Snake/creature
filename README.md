@@ -49,10 +49,10 @@ async def download(url):
 
 ```
 
-A coroutine is "exempted" from the current greenlet, and put into another,
+A coroutine is "exempted" from the current greenlet, and put into another one,
 where it is executed. While a regular function takes its place.
-However, you should also provide a way for exempted coroutines to execute.
-There are 2 ways how you can do that.
+However, we should also provide a way for exempted coroutines to execute.
+There are two possible ways of doing that.
 
 **1. as_async wrapper**
 
