@@ -21,10 +21,10 @@ pip install greenhack
 **Greenlets**
 
 [greenlets](https://greenlet.readthedocs.io)
-are created from python functions. You can explicitly switch from one
+can be created from python functions. You can explicitly switch from one
 greenlet to another, in that case, the execution of the first greenlet is stopped
-until some greenlet switches back into it. Python generators on steroids,
-to put it simple.
+until some greenlet switches back into it. They are like python generators,
+but don't require the yield statement.
 
 In order to do our trick, we will require just 2 greenlets, a sync one and an async one.
 The event loop will be running in the async greenlet.
