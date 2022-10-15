@@ -28,10 +28,10 @@ greenlet to another: in that case, the execution of the first greenlet is paused
 until some greenlet switches back into it. Greenlets are like python generators,
 but don't require the yield statement.
 
-In order to do our trick, we will require 2 greenlets, a sync one and an async one.
+In order to do our trick, two greenlets are required: a sync one and an async one.
 The event loop will be running in the async greenlet.
 We will be switching to the async greenlet every time we encounter a coroutine.
-For that purpose, every async coroutine function should be decorated with
+For that purpose, we should decorate async coroutine functions with
 `exempt`:
 
 ```python
