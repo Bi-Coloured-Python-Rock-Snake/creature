@@ -103,8 +103,8 @@ assert sleep(1) == 1
 resp = download('https://www.python.org/')
 ```
 
-Also, this may help to work with existing/legacy code. For example, adding
-`start_loop()` to `manage.py` (a django-specific script) makes all of the
+Also, this may help to work with existing/legacy code. For example, adding the
+`start_loop()` line to `manage.py` (a django-specific script) makes all of the
 django cli work like a charm (with an async database driver!)
 
 Happy hacking!
