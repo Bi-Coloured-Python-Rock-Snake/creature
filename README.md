@@ -93,7 +93,7 @@ alternative to it that is shown below).
 **2. start_loop**
 
 You can also start an event loop yourself, the one that will run the
-exempted coroutines. An example, when that may be useful, is Python REPL:
+exempted coroutines. An example, when that may be useful, is the Python REPL:
 
 ```python
 import greenhack
