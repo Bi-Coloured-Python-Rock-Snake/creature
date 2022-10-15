@@ -24,8 +24,8 @@ pip install greenhack
 can be created from python functions, the first switch to a greenlet
 calls that function.
 You can explicitly switch from one
-greenlet to another, in that case, the execution of the first greenlet is paused
-until some greenlet switches back into it. They are like python generators,
+greenlet to another: in that case, the execution of the first greenlet is paused,
+until some greenlet switches back into it. Greenlets are like python generators,
 but don't require the yield statement.
 
 In order to do our trick, we will require 2 greenlets, a sync one and an async one.
