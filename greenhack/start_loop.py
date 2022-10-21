@@ -46,7 +46,7 @@ if __name__ == '__main__':
         import httpx
         async with httpx.AsyncClient() as client:
             resp = await client.get(url)
-            return len(resp.aread())
+            return len(resp.content)
 
     print(sleep(0.5))
     print(download('https://www.python.org/'))
