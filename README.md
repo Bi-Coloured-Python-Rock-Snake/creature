@@ -87,8 +87,8 @@ if __name__ == '__main__':
 ```
 
 A thing to mention is that this snippet is working too:
-the `exempt` decorator is a no-op without `as_async` (or the
-alternative to it that is shown below).
+the `exempt` decorator is a no-op without `as_async` (or `start_loop`,
+the details on which you will find below).
 
 **2. start_loop**
 
