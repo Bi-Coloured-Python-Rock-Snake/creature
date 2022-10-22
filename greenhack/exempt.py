@@ -37,5 +37,6 @@ def exempt(fn=None):
 
         return replace_fn
 
+    # This makes the decorator usable as both @exempt and @exempt()
     return decorate(fn) if fn else decorate
 
