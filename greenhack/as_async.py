@@ -5,6 +5,7 @@ from functools import wraps
 
 import greenlet
 
+from greenhack import context
 from greenhack.exempt import exempt
 
 
@@ -22,6 +23,7 @@ def as_async(fn=None):
 
             task = new_greenlet.switch(*args, **kw)
 
+            token = context.var.set(context.Var())
             try:
                 while True:
                     if not new_greenlet:
@@ -36,6 +38,7 @@ def as_async(fn=None):
                         task = new_greenlet.switch(result)
             finally:
                 new_greenlet.other_greenlet = None
+                context.var.reset(token)
 
         return async_fn
 
