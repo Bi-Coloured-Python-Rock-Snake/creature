@@ -1,11 +1,14 @@
 import asyncio
 import sys
+from contextlib import AsyncExitStack
 
 from functools import wraps
 
 import greenlet
 
+from greenhack.cm import Cm
 from greenhack.exempt import exempt
+from greenhack.utils import pop_cm
 
 
 def as_async(fn=None):
@@ -23,17 +26,26 @@ def as_async(fn=None):
             task = new_greenlet.switch(*args, **kw)
 
             try:
-                while True:
-                    if not new_greenlet:
-                        # Then this is the final result
-                        return task
-
-                    try:
-                        result = await task()
-                    except:
-                        task = new_greenlet.throw(*sys.exc_info())
-                    else:
-                        task = new_greenlet.switch(result)
+                async with AsyncExitStack() as aes:
+                    while True:
+                        try:
+                            if not new_greenlet:
+                                # Then this is the final result
+                                return task
+                            # if isinstance(task, Cm):
+                            match task:
+                                case Cm.ENTER, async_cm:
+                                    result = await aes.enter_async_context(async_cm)
+                                case Cm.EXIT, async_cm:
+                                    _aes = pop_cm(aes, async_cm)
+                                    await _aes.aclose()
+                                    result = None
+                                case _:
+                                    result = await task()
+                        except:
+                            task = new_greenlet.throw(*sys.exc_info())
+                        else:
+                            task = new_greenlet.switch(result)
             finally:
                 new_greenlet.other_greenlet = None
 

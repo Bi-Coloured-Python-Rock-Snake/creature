@@ -1,20 +1,32 @@
 import asyncio
 import sys
+from contextlib import AsyncExitStack
 
 import greenlet
 
+from greenhack.cm import Cm
 from greenhack.exempt import exempt
+from greenhack.utils import pop_cm
 
 
 async def _loop(out, task):
     try:
-        while True:
-            try:
-                result = await task()
-            except:
-                task = out.throw(*sys.exc_info())
-            else:
-                task = out.switch(result)
+        async with AsyncExitStack() as aes:
+            while True:
+                try:
+                    match task:
+                        case Cm.ENTER, async_cm:
+                            result = await aes.enter_async_context(async_cm)
+                        case Cm.EXIT, async_cm:
+                            _aes = pop_cm(aes, async_cm)
+                            await _aes.aclose()
+                            result = None
+                        case _:
+                            result = await task()  # FIXME
+                except:
+                    task = out.throw(*sys.exc_info())
+                else:
+                    task = out.switch(result)
     finally:
         out.other_greenlet = None
 
