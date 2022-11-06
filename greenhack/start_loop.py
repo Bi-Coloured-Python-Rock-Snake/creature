@@ -3,12 +3,10 @@ import sys
 
 import greenlet
 
-from greenhack import context
 from greenhack.exempt import exempt
 
 
-async def _loop(out, task, *, context_var):
-    token = context.var.set(context_var)
+async def _loop(out, task):
     try:
         while True:
             try:
@@ -19,7 +17,6 @@ async def _loop(out, task, *, context_var):
                 task = out.switch(result)
     finally:
         out.other_greenlet = None
-        context.var.reset(token)
 
 
 def start_loop():
@@ -29,13 +26,11 @@ def start_loop():
     """
     current = greenlet.getcurrent()
 
-    context_var = context.Var()
-    _token = context.var.set(context_var)
-
-    def run(task, current=current, context_var=context_var):
-        asyncio.run(_loop(current, task, context_var=context_var))
+    def run(task, current=current):
+        asyncio.run(_loop(current, task))
 
     current.other_greenlet = greenlet.greenlet(run)
+    current.other_greenlet._other_greenlet = current
 
 
 
