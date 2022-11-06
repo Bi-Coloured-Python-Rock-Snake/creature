@@ -1,0 +1,14 @@
+# Support async context managers:
+
+while True:
+    async with aes:
+        if type(task) == ('cm', 'enter'):
+            result = await aes.enter_async_context(task)
+            task = g.switch(result)
+        elif type(task) == ('cm', 'exit'):
+            task = aes.pop()
+            # assert it's the task
+            await task.aclose()
+        else:
+            result = await task()
+            task = g.switch(result)
