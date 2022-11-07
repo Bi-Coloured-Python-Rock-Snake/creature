@@ -1,17 +1,8 @@
+import inspect
 import typing
 from functools import wraps
 
 import greenlet
-
-
-class Task(typing.NamedTuple):
-    fn: object
-    args: tuple
-    kwargs: dict
-
-    def __call__(self):
-        fn, args, kw = self
-        return fn(*args, **kw)
 
 
 def exempt(fn=None):
@@ -23,17 +14,18 @@ def exempt(fn=None):
     """
 
     def decorate(fn):
+        assert inspect.iscoroutinefunction(fn)
+
         @wraps(fn)
         def replace_fn(*args, **kwargs):
             current = greenlet.getcurrent()
-
+            co = fn(*args, **kwargs)
             try:
-                other = current.other_greenlet
+                other = current.async_greenlet
             except AttributeError:
-                # not running inside a greenlet, executing it as-is
-                return fn(*args, **kwargs)
-            task = Task(fn, args, kwargs)
-            return other.switch(task)
+                # not running inside a greenlet, return as-is
+                return co
+            return other.switch(co)
 
         return replace_fn
 

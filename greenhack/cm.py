@@ -21,12 +21,12 @@ class ExemptCm:
     async_cm: object
 
     def __enter__(self):
-        other = greenlet.getcurrent().other_greenlet
+        other = greenlet.getcurrent().async_greenlet
         cm = Cm(Cm.ENTER, self.async_cm)
         return other.switch(cm)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        other = greenlet.getcurrent().other_greenlet
+        other = greenlet.getcurrent().async_greenlet
         if exc_type:
             other.throw(exc_type, exc_val, exc_tb)
             return True

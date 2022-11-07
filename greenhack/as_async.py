@@ -6,6 +6,7 @@ from functools import wraps
 
 import greenlet
 
+from greenhack._loop import _loop
 from greenhack.cm import Cm
 from greenhack.exempt import exempt
 from greenhack.utils import pop_cm
@@ -20,34 +21,15 @@ def as_async(fn=None):
     def decorate(fn):
         @wraps(fn)
         async def async_fn(*args, **kw):
-            new_greenlet = greenlet.greenlet(fn)
-            new_greenlet.other_greenlet = greenlet.getcurrent()
-
-            task = new_greenlet.switch(*args, **kw)
-
+            sync_greenlet = greenlet.greenlet(fn)
+            sync_greenlet.async_greenlet = current = greenlet.getcurrent()
+            current.sync_greenlet = sync_greenlet
+            task = sync_greenlet.switch(*args, **kw)
             try:
-                async with AsyncExitStack() as aes:
-                    while True:
-                        try:
-                            if not new_greenlet:
-                                # Then this is the final result
-                                return task
-                            # if isinstance(task, Cm):
-                            match task:
-                                case Cm.ENTER, async_cm:
-                                    result = await aes.enter_async_context(async_cm)
-                                case Cm.EXIT, async_cm:
-                                    _aes = pop_cm(aes, async_cm)
-                                    await _aes.aclose()
-                                    result = None
-                                case _:
-                                    result = await task()
-                        except:
-                            task = new_greenlet.throw(*sys.exc_info())
-                        else:
-                            task = new_greenlet.switch(result)
+                return await _loop(sync_greenlet, task)
             finally:
-                new_greenlet.other_greenlet = None
+                sync_greenlet.async_greenlet = None
+                current.sync_greenlet = None
 
         return async_fn
 
