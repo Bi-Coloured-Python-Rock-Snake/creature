@@ -29,9 +29,9 @@ class ExemptCm:
         other = greenlet.getcurrent().other_greenlet
         if exc_type:
             other.throw(exc_type, exc_val, exc_tb)
-        else:
-            cm = Cm(Cm.EXIT, self.async_cm)
-            assert other.switch(cm) is None
+            return True
+        cm = Cm(Cm.EXIT, self.async_cm)
+        assert other.switch(cm) is None
 
 
 def exempt_cm(fn=None):
