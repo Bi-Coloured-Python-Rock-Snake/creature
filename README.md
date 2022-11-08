@@ -94,12 +94,10 @@ greenhack.start_loop()
 
 var = greenhack.ContextVar(__name__, 'var')
 
-
 @exempt
 async def f1():
     # var.set returns its previous value
     assert var.set(1) == var.NONE
-
 
 def f2():
     assert var.get() == 1
@@ -125,7 +123,6 @@ async def have_rest(before, after):
         yield
     finally:
         await asyncio.sleep(after)
-
 
 with have_rest(1, 3):
     print('Party!')
