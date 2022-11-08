@@ -35,7 +35,7 @@ async def download(url):
 "Exempt" means that coroutines are exempted from the current greenlet, and 
 sent to another.
 
-Now, to call those functions, you have two options: 
+Now, to call those functions you have two options: 
 
 **1. as_async decorator**
 
@@ -53,8 +53,9 @@ def main():
 asyncio.run(main())
 ```
 
-Which will
-```text
+Which will print
+
+```commandline
 Slept for 0.5 seconds
 Downloaded 50856 bytes
 ```
