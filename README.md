@@ -5,7 +5,8 @@ This package allows you to mix sync and async code by means of using
 
 Its practical uses are [this](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend)
 async django backend and the async support in
-sqlalchemy (the latter uses its own code, which this library was based upon).
+sqlalchemy. The latter uses its own code however, which this library was based 
+upon.
 
 ## Install
 
