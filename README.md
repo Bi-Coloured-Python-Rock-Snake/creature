@@ -61,8 +61,9 @@ Slept for 0.5 seconds
 Downloaded 50856 bytes
 ```
 
-Or you can start an event loop yourself (intended for interactive use or 
-scripts).
+Or you can start an event loop yourself - this may be useful for interactive 
+use or 
+scripts.
 
 **2. start_loop()**
 
