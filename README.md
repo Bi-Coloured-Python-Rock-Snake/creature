@@ -86,7 +86,9 @@ greenlet dies, the async one returns the result. Simple, isn't it?
 asyncio has `contextvars` module that gives coroutines access to their 
 "context". greenhack has its own contextvars for the very same purpose.
 
-As you should know by now, we have two 
+Greenlet itself has support for contextvars: all greenlets have different 
+contexts.
+However, as you should know by now, we have two 
 greenlets, sync and async, and it's natural for them to share the context.
 
 ```python
