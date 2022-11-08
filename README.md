@@ -102,12 +102,13 @@ var = greenhack.CtxVar(__name__, 'var')
 
 @exempt
 async def f1():
-    # var.set returns its previous value
-    assert var.set(1) == var.NONE
+    var.set(1)
 
 
 def f2():
     assert var.get() == 1
+    # set() returns the previous value
+    assert var.set(2) == 1
 
 
 f1()

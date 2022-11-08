@@ -1,6 +1,14 @@
 import greenlet
 
 
+class NOT_PROVIDED:
+    def __bool__(self):
+        return False
+
+
+NOT_PROVIDED = NOT_PROVIDED()
+
+
 def get_contextvars():
     current = greenlet.getcurrent()
     if hasattr(current, 'async_greenlet'):
@@ -13,22 +21,23 @@ def get_contextvars():
 
 
 class CtxVar:
-    class NONE:
-        pass
 
-    def __init__(self, *args, default=NONE):
+    def __init__(self, *args, default=NOT_PROVIDED):
         assert all(isinstance(arg, str) for arg in args)
         self.name = '.'.join(args)
         self.default = default
 
     def get(self):
         vars = get_contextvars()
+        if self.default is NOT_PROVIDED:
+            return vars[self.name]
         return vars.get(self.name, self.default)
 
     def set(self, value):
         vars = get_contextvars()
-        old_value = vars.pop(self.name, self.NONE)
-        vars[self.name] = value
+        old_value = vars.pop(self.name, NOT_PROVIDED)
+        if value is not NOT_PROVIDED:
+            vars[self.name] = value
         return old_value
 
 
@@ -40,7 +49,7 @@ if __name__ == '__main__':
 
     @exempt
     async def f1():
-        assert var.set(1) == var.NONE
+        assert var.set(1) == NOT_PROVIDED
 
     def f2():
         assert var.get() == 1
