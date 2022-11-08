@@ -91,18 +91,24 @@ contexts.
 However, as you should know by now, we have two 
 greenlets, sync and async, and it's natural for them to share the context.
 
+The class intentionally is called CtxVar, not to import the standard 
+ContextVar by mistake.
+
 ```python
 greenhack.start_loop()
 
-var = greenhack.ContextVar(__name__, 'var')
+var = greenhack.CtxVar(__name__, 'var')
+
 
 @exempt
 async def f1():
     # var.set returns its previous value
     assert var.set(1) == var.NONE
 
+
 def f2():
     assert var.get() == 1
+
 
 f1()
 f2()

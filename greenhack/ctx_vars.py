@@ -12,7 +12,7 @@ def get_contextvars():
     return g._contextvars
 
 
-class ContextVar:
+class CtxVar:
     class NONE:
         pass
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     from greenhack import exempt, start_loop
     start_loop()
 
-    var = ContextVar(__name__, 'var')
+    var = CtxVar(__name__, 'var')
 
     @exempt
     async def f1():
