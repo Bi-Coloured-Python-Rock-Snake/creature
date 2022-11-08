@@ -3,8 +3,9 @@
 This package allows you to mix sync and async code by means of using
 [greenlet](https://github.com/python-greenlet/greenlet).
 
-The uses of this are this async [databasebackend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend) for django
-and the async support in
+The uses of this are this async [database backend](https://github.
+com/Bi-Coloured-Python-Rock-Snake/pgbackend) for django, as well as
+the async support in
 sqlalchemy. The latter uses its own code however, which this library was based 
 upon.
 
