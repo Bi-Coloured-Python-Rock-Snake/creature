@@ -61,10 +61,12 @@ Downloaded 50856 bytes
 ```
 
 Or you can start an event loop yourself (intended for interactive use or 
-scripts):
+scripts).
+
+**2. start_loop**
 
 ```python
-from greenhack import start_loop; start_loop()
+import greenhack; greenhack.start_loop()
 
 sleep(0.5)
 download('https://www.python.org')
