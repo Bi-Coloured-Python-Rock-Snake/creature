@@ -1,14 +1,11 @@
 # greenhack
 
-This package allows you to use the async I/O,
-without the need for async/await keywords. In other words,
-it lets you write the code as if it was synchronous,
-when in fact, it is not.
+This package allows you to mix sync and async code by means of using
+[greenlet](https://github.com/python-greenlet/greenlet).
 
-This is done via the greenlet hack,
-which is best known from its use in sqlalchemy.
-
-
+Its practical uses are [this](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend)
+async django backend and the async support in
+sqlalchemy (the latter uses its own code, which this library was based upon).
 
 ## Install
 
@@ -18,21 +15,7 @@ pip install greenhack
 
 ## Usage
 
-**Greenlets**
-
-[greenlets](https://greenlet.readthedocs.io)
-can be created from python functions, the first switch to a greenlet
-calls that function.
-You can explicitly switch from one
-greenlet to another: in that case, the execution of the first greenlet is paused,
-until some greenlet switches back into it. Greenlets are like python generators,
-but don't require the yield statement.
-
-In order to do our trick, two greenlets are required: a sync one and an async one.
-The event loop will be running in the async greenlet.
-We will be switching to the async greenlet every time we encounter a coroutine.
-For that purpose, we should decorate async coroutine functions with
-`exempt`:
+You can turn an async function into a sync one by using `exempt` decorator:
 
 ```python
 from greenhack import exempt
@@ -40,71 +23,53 @@ from greenhack import exempt
 @exempt
 async def sleep(secs):
     await asyncio.sleep(secs)
-    return secs
+    print(f'Slept for {secs} seconds')
 
 @exempt
 async def download(url):
     async with httpx.AsyncClient() as client:
-        return await client.get(url)
-
+        resp = await client.get(url)
+        print(f'Downloaded {len(resp.content)} bytes')
 ```
 
-A coroutine is "exempted" from the current greenlet, and put into another one,
-where it is executed. While a regular function takes its place.
-However, we should also provide a way for exempted coroutines to execute.
-There are two possible ways of doing that.
+"Exempt" means that coroutines are exempted from the current greenlet, and 
+sent to another.
 
-**1. as_async wrapper**
+Now, to call those functions, you have two options: 
 
-One option is placing the `as_async` decorator over some top-level function.
-This way, executing that function in an event loop will lead to the
-exempted coroutines being executed upon the calls of their sync counterparts
-(which they were replaced with).
+**1. as_async decorator**
+
+You can use `as_async` decorator to make the main function async again and 
+run it with an event loop:
 
 ```python
 from greenhack import as_async
 
 @as_async
-def myfunc():
-    sleep(0.1)
-    resp = download('https://www.python.org/')
-    assert len(resp.content) < 1024 * 1024
+def main():
+    sleep(0.5)
+    download('https://www.python.org')
 
-if __name__ == '__main__':
-    asyncio.run(myfunc())
+asyncio.run(main())
 ```
 
-Here is the equivalent code:
+Which will
+```text
+Slept for 0.5 seconds
+Downloaded 50856 bytes
+```
+
+Or you can start an event loop yourself (intended for interactive use or 
+scripts):
 
 ```python
-async def myfunc():
-    await sleep(0.1)
-    resp = await download('https://www.python.org/')
-    assert len(resp.content) < 1024 * 1024
+from greenhack import start_loop; start_loop()
 
-if __name__ == '__main__':
-    asyncio.run(myfunc())
+sleep(0.5)
+download('https://www.python.org')
 ```
 
-A thing to mention is that this snippet is working too:
-the `exempt` decorator is a no-op without either `as_async` or `start_loop` 
-(see below).
+Which will print the same.
 
-**2. start_loop**
 
-You can also start an event loop yourself, the one that will run the
-exempted coroutines. An example, when that may be useful, is the Python REPL:
-
-```python
-import greenhack
-greenhack.start_loop()
-
-assert sleep(1) == 1
-resp = download('https://www.python.org/')
-```
-
-Also, this may help working with existing/legacy code. For example, adding the
-`start_loop()` line to `manage.py` (a django-specific script) makes all of the
-django cli work like a charm (with an async database driver!)
-
-Good luck!
+You can read more about the "mixed I/O" approach [here]().
