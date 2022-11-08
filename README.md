@@ -131,7 +131,8 @@ with have_rest(1, 3):
     print('Party!')
 ```
 
-`exempt_cm` stays for "exempt the context manager", of course. This feature was 
+`exempt_cm` stays for "exempt the context manager", of course. This feature 
+had been 
 useful when I 
 was working on the async backend for django, because the psycopg3 driver 
 uses context managers extensively.
