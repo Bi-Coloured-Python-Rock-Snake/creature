@@ -97,18 +97,17 @@ ContextVar by mistake.
 ```python
 greenhack.start_loop()
 
-var = greenhack.CtxVar(__name__, 'var')
+var = greenhack.context_var(__name__, 'var', default=-1)
 
 
 @exempt
 async def f1():
-    var.set(1)
+    # set() returns the previous value
+    assert var.set(1) == -1
 
 
 def f2():
     assert var.get() == 1
-    # set() returns the previous value
-    assert var.set(2) == 1
 
 
 f1()
@@ -142,6 +141,20 @@ had been
 useful when I 
 was working on the async backend for django, because the psycopg3 driver 
 uses context managers extensively.
+
+**Iterators**
+
+You get the principle, don't you? Similarly, we have `exempt_it` for iterators.
+
+```python
+@exempt_it
+async def counter():
+    for i in range(3):
+        await asyncio.sleep(0.1 * i)
+        yield i
+
+assert list(counter()) == [0, 1, 2]
+```
 
 Good luck with greenhack! You can read more on the "mixed I/O" approach 
 [here](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend/blob/main/mixed-io.md).

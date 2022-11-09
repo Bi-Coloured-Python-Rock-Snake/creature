@@ -1,15 +1,19 @@
 import sys
 from contextlib import AsyncExitStack
 
-from greenhack.cm import Cm
+import greenlet
+
+from greenhack.context_managers import Cm
 from greenhack.utils import pop_cm
 
 
-async def _loop(sync_greenlet, task):
+async def _loop(task):
     """
     This is the loop the async greenlet executes.
     It returns when the sync greenlet dies.
     """
+    sync_greenlet = greenlet.getcurrent().sync_greenlet
+
     async with AsyncExitStack() as aes:
         while True:
             if not sync_greenlet:

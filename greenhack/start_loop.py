@@ -13,8 +13,8 @@ def start_loop():
     """
     current = greenlet.getcurrent()
 
-    def run(task, current=current):
-        asyncio.run(_loop(current, task))
+    def run(task):
+        asyncio.run(_loop(task))
 
     current.async_greenlet = greenlet.greenlet(run)
     current.async_greenlet.sync_greenlet = current

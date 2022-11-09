@@ -7,10 +7,9 @@ from functools import wraps
 import greenlet
 
 from greenhack._loop import _loop
-from greenhack.cm import Cm
+from greenhack.context_managers import Cm
 from greenhack.exempt import exempt
 from greenhack.utils import pop_cm
-
 
 def as_async(fn=None):
     """
@@ -26,7 +25,7 @@ def as_async(fn=None):
             current.sync_greenlet = sync_greenlet
             task = sync_greenlet.switch(*args, **kw)
             try:
-                return await _loop(sync_greenlet, task)
+                return await _loop(task)
             finally:
                 sync_greenlet.async_greenlet = None
                 current.sync_greenlet = None

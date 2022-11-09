@@ -14,7 +14,7 @@ def exempt(fn=None):
     """
 
     def decorate(fn):
-        assert inspect.iscoroutinefunction(fn)
+        assert inspect.iscoroutinefunction(fn) or type(fn).__module__ == 'builtins'
 
         @wraps(fn)
         def replace_fn(*args, **kwargs):
@@ -23,8 +23,9 @@ def exempt(fn=None):
             try:
                 other = current.async_greenlet
             except AttributeError:
-                # not running inside a greenlet, return as-is
-                return co
+                # TODO check a context var, if set, do nothing, i. e. return co
+                raise
+
             return other.switch(co)
 
         return replace_fn

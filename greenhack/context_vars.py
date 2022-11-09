@@ -20,7 +20,7 @@ def get_contextvars():
     return g._contextvars
 
 
-class CtxVar:
+class ContextVariable:
 
     def __init__(self, *args, default=NOT_PROVIDED):
         assert all(isinstance(arg, str) for arg in args)
@@ -35,21 +35,24 @@ class CtxVar:
 
     def set(self, value):
         vars = get_contextvars()
-        old_value = vars.pop(self.name, NOT_PROVIDED)
+        old_value = vars.pop(self.name, self.default)
         if value is not NOT_PROVIDED:
             vars[self.name] = value
         return old_value
+
+
+context_var = ContextVariable
 
 
 if __name__ == '__main__':
     from greenhack import exempt, start_loop
     start_loop()
 
-    var = CtxVar(__name__, 'var')
+    var = context_var(__name__, 'var', default=-1)
 
     @exempt
     async def f1():
-        assert var.set(1) == NOT_PROVIDED
+        assert var.set(1) == -1
 
     def f2():
         assert var.get() == 1
