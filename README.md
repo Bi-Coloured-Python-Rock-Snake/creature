@@ -10,8 +10,9 @@ greenlets. Then, all async tasks are being sent to the async greenlet and
 executed there,
 while the sync greenlet doesn't do any I/O itself.
 
-Its practical uses are async database [backend](https://github.
-com/Bi-Coloured-Python-Rock-Snake/pgbackend) for django, as well as
+Its practical uses are
+[this]((https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend))
+async database backend for django, as well as
 the async support in
 sqlalchemy. The latter uses its own code however, which this library was based 
 upon.
