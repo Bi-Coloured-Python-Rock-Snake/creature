@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(name="greenhack",
-      version="0.1.11",
+      version="0.1.12",
       author="Vitalii Abetkin",
       author_email="abvit89s@gmail.ru",
       packages=find_packages(),
