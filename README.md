@@ -1,9 +1,17 @@
 # greenhack
 
-This package allows you to mix sync and async code by means of using
+This package lets you make a bridge between yor sync and async code.
+It allows for sync-looking API to have async implementation under the hood.
+It does that by using
 [greenlet](https://github.com/python-greenlet/greenlet).
 
-It is used for this async database [backend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend) for django, as well as
+The main principle is to separate sync and async code by two different 
+greenlets. Then, all async tasks are being sent to the async greenlet and 
+executed there,
+while the sync greenlet doesn't do any I/O itself.
+
+Its practical uses are async database [backend](https://github.
+com/Bi-Coloured-Python-Rock-Snake/pgbackend) for django, as well as
 the async support in
 sqlalchemy. The latter uses its own code however, which this library was based 
 upon.
@@ -61,11 +69,11 @@ Slept for 0.5 seconds
 Downloaded 50856 bytes
 ```
 
-Or you can start an event loop yourself - this may be useful for interactive 
-use or 
-scripts.
-
 **2. start_loop()**
+
+You can also start an event loop yourself - this may be useful for interactive 
+use or scripts.
+
 
 ```python
 import greenhack; greenhack.start_loop()
@@ -76,10 +84,18 @@ download('https://www.python.org')
 
 Which will print the same.
 
-How this is implemented: we make two greenlets, a sync and an async one. 
-Whenever we meet an async operation, we switch to the async greenlet, 
-execute it there, and then switch back with the result. When the sync 
-greenlet dies, the async one returns the result. Simple, isn't it?
+**Note: start_loop() doesn't work in IPython REPL**
+
+The reason is that IPython starts the asyncio loop itself. The 
+prompt_toolkit used by IPython, also needs one. So, for IPython there is a 
+different solution
+
+```python
+import greenhack; greenhack.ipy.enable()
+```
+
+This works in both PyCharm Console and IPython, while start_loop() - only in 
+the PyCharm Console (even if it uses IPython).
 
 **Context vars**
 
