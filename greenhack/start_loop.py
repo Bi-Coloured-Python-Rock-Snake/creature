@@ -6,6 +6,7 @@ from greenhack._loop import _loop
 from greenhack.exempt import exempt
 
 
+#spawn_loop
 def start_loop():
     """
     Start an event loop in a new greenlet that will execute
@@ -14,10 +15,12 @@ def start_loop():
     current = greenlet.getcurrent()
 
     def run(task):
-        asyncio.run(_loop(task))
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(_loop(task))
 
     current.async_greenlet = greenlet.greenlet(run)
     current.async_greenlet.sync_greenlet = current
+    return current.async_greenlet
 
 
 
