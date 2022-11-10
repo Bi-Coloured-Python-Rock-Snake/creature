@@ -14,7 +14,7 @@ Its practical uses are
 [this](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend)
 async database backend for django, as well as
 the async support in
-sqlalchemy. The latter uses its own code however, which this library was based 
+sqlalchemy. The latter uses its own code though, which this library was based 
 upon.
 
 ## Install
