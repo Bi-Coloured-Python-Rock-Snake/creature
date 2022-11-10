@@ -6,4 +6,3 @@ from .context_managers import exempt_cm
 from .utils import print_stack
 from .context_vars import context_var
 from .iterators import exempt_it
-from . import ipy
