@@ -11,7 +11,7 @@ executed there,
 while the sync greenlet doesn't do any I/O itself.
 
 Its practical uses are
-[this]((https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend))
+[this](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend)
 async database backend for django, as well as
 the async support in
 sqlalchemy. The latter uses its own code however, which this library was based 
