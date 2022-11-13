@@ -16,8 +16,7 @@ class Cm(typing.NamedTuple):
     EXIT = 1
 
 
-@dataclass
-class ExemptCm:
+class ExemptCm(typing.NamedTuple):
     async_cm: object
 
     def __enter__(self):
