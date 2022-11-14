@@ -1,7 +1,7 @@
 import typing
 from contextlib import asynccontextmanager
-from dataclasses import dataclass
 from functools import wraps
+from typing import AsyncContextManager
 
 import greenlet
 
@@ -17,20 +17,31 @@ class Cm(typing.NamedTuple):
 
 
 class ExemptCm(typing.NamedTuple):
-    async_cm: object
+    async_cm: AsyncContextManager
 
     def __enter__(self):
         other = greenlet.getcurrent().async_greenlet
-        cm = Cm(Cm.ENTER, self.async_cm)
-        return other.switch(cm)
+        task = self.async_cm.__aenter__()
+        return other.switch(task)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         other = greenlet.getcurrent().async_greenlet
         if exc_type:
             other.throw(exc_type, exc_val, exc_tb)
             return True
-        cm = Cm(Cm.EXIT, self.async_cm)
+        cm = AsyncExitCm(self.async_cm)
         assert other.switch(cm) is None
+
+
+class AsyncExitCm(typing.NamedTuple):
+    async_cm: AsyncContextManager
+
+    async def __aenter__(self):
+        pass
+
+    @property
+    def __aexit__(self):
+        return self.async_cm.__aexit__
 
 
 def exempt_cm(fn=None):
@@ -47,6 +58,8 @@ def exempt_cm(fn=None):
 
 
 if __name__ == '__main__':
+    from greenhack import exempt_cm
+
     @exempt_cm
     @asynccontextmanager
     async def cm():
