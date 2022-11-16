@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "greenhack"
-version = "0.1.14"
+version = "0.1.15"
 description = ""
 authors = ["pwtail <abvit89s@gmail.com>"]
 readme = "README.md"

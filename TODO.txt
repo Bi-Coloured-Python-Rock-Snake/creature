@@ -1,1 +1,3 @@
 rename: sieve
+
+fut = some_exempted_op() - in async greenlet !

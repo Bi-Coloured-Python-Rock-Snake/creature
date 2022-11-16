@@ -33,6 +33,12 @@ class ExemptCm(typing.NamedTuple):
         assert other.switch(cm) is None
 
 
+def ExemptCm(async_cm, ExemptCm=ExemptCm):
+    ret = ExemptCm(async_cm)
+    ret.asyn = async_cm
+    return ret
+
+
 class AsyncExitCm(typing.NamedTuple):
     async_cm: AsyncContextManager
 
