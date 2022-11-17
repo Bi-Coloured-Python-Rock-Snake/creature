@@ -52,7 +52,6 @@ def exempt_cm(fn=None):
             assert isinstance(async_cm, typing.AsyncContextManager)
             return ExemptCm(async_cm)
 
-        wrapper.asyn = fn
         return wrapper
 
     return decorate(fn) if fn else decorate

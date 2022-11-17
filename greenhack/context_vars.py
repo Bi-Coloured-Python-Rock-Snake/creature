@@ -13,8 +13,10 @@ def get_contextvars():
     current = greenlet.getcurrent()
     if hasattr(current, 'async_greenlet'):
         g = current
-    else:
+    elif hasattr(current, 'sync_greenlet'):
         g = current.sync_greenlet
+    else:
+        assert False
     if not hasattr(g, '_contextvars'):
         g._contextvars = {}
     return g._contextvars
@@ -45,10 +47,14 @@ context_var = ContextVariable
 
 
 if __name__ == '__main__':
-    from greenhack import exempt, start_loop
+    from greenhack import exempt, start_loop, as_async
+
     start_loop()
 
     var = context_var(__name__, 'var', default=-1)
+
+    def get_var():
+        return var.get()
 
     @exempt
     async def f1():
@@ -60,7 +66,8 @@ if __name__ == '__main__':
 
     @exempt
     async def f3():
-        assert var.get() == 2
+        value = await as_async(get_var)()
+        assert value == 2
 
     f1()
     f2()

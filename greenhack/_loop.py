@@ -24,6 +24,8 @@ async def _loop(task):
                     result = None
                 case task if isinstance(task, Awaitable):
                     result = await task
+                case _obj:
+                    assert False
         except:
             task = sync_greenlet.throw(*sys.exc_info())
         else:

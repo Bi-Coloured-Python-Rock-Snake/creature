@@ -1,15 +1,12 @@
 import asyncio
-import sys
-from contextlib import AsyncExitStack
-
 from functools import wraps
 
 import greenlet
 
 from greenhack._loop import _loop
-from greenhack.context_managers import Cm
+from greenhack.context_vars import get_contextvars
 from greenhack.exempt import exempt
-from greenhack.utils import pop_cm
+
 
 def as_async(fn=None):
     """
@@ -20,15 +17,23 @@ def as_async(fn=None):
     def decorate(fn):
         @wraps(fn)
         async def async_fn(*args, **kw):
+            # spawn a child (sync) greenlet, binding it to the current one (async)
+            current = greenlet.getcurrent()
             sync_greenlet = greenlet.greenlet(fn)
-            sync_greenlet.async_greenlet = current = greenlet.getcurrent()
+            try:
+                prev_sync_greenlet = current.sync_greenlet
+                sync_greenlet._contextvars = dict(get_contextvars())
+            except AttributeError:
+                prev_sync_greenlet = None
+            sync_greenlet.async_greenlet = current
             current.sync_greenlet = sync_greenlet
+            # run the new greenlet
             task = sync_greenlet.switch(*args, **kw)
             try:
                 return await _loop(task)
             finally:
                 sync_greenlet.async_greenlet = None
-                current.sync_greenlet = None
+                current.sync_greenlet = prev_sync_greenlet
 
         return async_fn
 

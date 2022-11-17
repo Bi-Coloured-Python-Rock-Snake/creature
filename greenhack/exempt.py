@@ -1,4 +1,3 @@
-import inspect
 import typing
 from functools import wraps
 
@@ -14,17 +13,16 @@ def exempt(fn=None):
     """
 
     def decorate(fn):
-        assert inspect.iscoroutinefunction(fn) or type(fn).__module__ == 'builtins'
-
         @wraps(fn)
         def replace_fn(*args, **kwargs):
             current = greenlet.getcurrent()
             co = fn(*args, **kwargs)
+            assert isinstance(co, typing.Awaitable)
             try:
                 other = current.async_greenlet
             except AttributeError:
-                # TODO check a context var, if set, do nothing, i. e. return co
-                raise
+                # Not called from a sync greenlet, returning as-is
+                return co
 
             return other.switch(co)
 
