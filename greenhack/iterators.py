@@ -18,6 +18,13 @@ class ExemptIt(typing.NamedTuple):
     def __iter__(self):
         return self
 
+    def __aiter__(self):
+        return self
+
+    @property
+    def __anext__(self):
+        return self.async_it.__anext__
+
 
 def exempt_it(fn=None):
     def decorate(fn):
@@ -30,6 +37,9 @@ def exempt_it(fn=None):
         return wrapper
 
     return decorate(fn) if fn else decorate
+
+
+universal_it = exempt_it
 
 
 if __name__ == '__main__':
