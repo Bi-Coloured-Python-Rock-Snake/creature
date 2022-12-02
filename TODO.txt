@@ -1,4 +1,1 @@
 rename: sieve
-
-fut = some_exempted_op() - in async greenlet !
-still assert 2 greenlets
