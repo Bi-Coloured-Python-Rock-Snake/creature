@@ -57,44 +57,8 @@ def exempt_cm(fn=None):
     return decorate(fn) if fn else decorate
 
 
-# @dataclass
-# class UniversalCm:
-#     async_cm: AsyncContextManager
-#
-#     @property
-#     def __aenter__(self):
-#         return self.async_cm.__aenter__
-#
-#     @property
-#     def __aexit__(self):
-#         return self.async_cm.__aexit__
-#
-#     @cached_property
-#     def sync_cm(self):
-#         return exempt_cm(self.async_cm)
-#
-#     @property
-#     def __enter__(self):
-#         return self.sync_cm.__enter__
-#
-#     @property
-#     def __exit__(self):
-#         return self.sync_cm.__exit__
-
 UniversalCm = ExemptCm
-
-def universal_cm(fn=None):
-    def decorate(fn):
-
-        @wraps(fn)
-        def wrapper(*args, **kw):
-            async_cm = fn(*args, **kw)
-            assert isinstance(async_cm, AsyncContextManager)
-            return UniversalCm(async_cm)
-
-        return wrapper
-
-    return decorate(fn) if fn else decorate
+universal_cm = exempt_cm
 
 
 if __name__ == '__main__':
