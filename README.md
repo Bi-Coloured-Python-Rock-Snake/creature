@@ -108,7 +108,7 @@ contexts.
 However, as you should know by now, we have two 
 greenlets, sync and async, and it's natural for them to share the context.
 
-The class intentionally is called CtxVar, not to import the standard 
+The class intentionally is called context_var, not to import the standard 
 ContextVar by mistake.
 
 ```python
