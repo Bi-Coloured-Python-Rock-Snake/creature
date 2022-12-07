@@ -8,14 +8,6 @@ import greenlet
 import greenhack
 
 
-class Cm(typing.NamedTuple):
-    type: int
-    obj: object
-
-    ENTER = 0
-    EXIT = 1
-
-
 class ExemptCm(typing.NamedTuple):
     async_cm: AsyncContextManager
 
