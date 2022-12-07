@@ -85,7 +85,7 @@ download('https://www.python.org')
 
 Which will print the same.
 
-**Note: start_loop() doesn't work in IPython REPL**
+*Note: start_loop() doesn't work in IPython REPL*
 
 The reason is that IPython starts the asyncio loop itself. The 
 prompt_toolkit used by IPython, also needs one. So, for IPython there is a 
