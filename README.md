@@ -103,7 +103,7 @@ the PyCharm Console (even if it uses IPython).
 asyncio has `contextvars` module that gives coroutines access to their 
 "context". greenhack has its own contextvars for the very same purpose.
 
-Greenlet itself has support for contextvars: all greenlets have different 
+greenlet itself has support for contextvars: all greenlets have different 
 contexts.
 However, as you should know by now, we have two 
 greenlets, sync and async, and it's natural for them to share the context.
