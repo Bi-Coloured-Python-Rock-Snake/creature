@@ -133,8 +133,7 @@ different solution:
 import greenhack; greenhack.ipy.enable()
 ```
 
-This works in both PyCharm Console and IPython, while start_loop() - only in 
-the PyCharm Console (even if it uses IPython).
+This works in both PyCharm Console and IPython.
 
 **Context vars**
 
