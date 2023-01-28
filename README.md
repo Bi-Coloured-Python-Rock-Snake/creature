@@ -14,7 +14,7 @@ written an
 async 
 django database [backend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend) using it.
 
-The same approach is used by sqlalchemy to provide its async features, however, 
+The same approach is used by sqlalchemy to provide its async features. However, 
 this library is more advanced in terms of features as it **provides support 
 for REPL, context managers, iterators, context vars**.
 
