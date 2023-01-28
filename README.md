@@ -38,8 +38,9 @@ hood.
 
 ## Description
 
-This package lets you make a bridge between the sync and async code.
-It allows for sync-looking API to have async implementation under the hood.
+This library makes it possible for the regular (sync-looking) functions to have 
+async 
+implementation under the hood.
 It does that by using
 [greenlet](https://github.com/python-greenlet/greenlet).
 
@@ -47,13 +48,6 @@ The main principle is to separate sync and async code by two different
 greenlets. Then, all async tasks are being sent to the async greenlet and 
 executed there,
 while the sync greenlet doesn't do any I/O itself.
-
-Its practical uses are
-[this](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend)
-async database backend for django, as well as
-the async support in
-sqlalchemy. The latter uses its own code though, which this library was based 
-upon.
 
 ## Install
 
