@@ -21,7 +21,8 @@ for REPL, context managers, iterators, context vars**.
 However, I decided to discontinue it. The thing is there are two approaches to 
 async programming: one uses 
 the "colored 
-functions" (first made known by a [post](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) of Bob Nystrom)
+functions" approach (first made known by a [post](https://journal.
+stuffwithstuff.com/2015/02/01/what-color-is-your-function/) of Bob Nystrom)
 and the other one does not. A vivid example is Python vs. Ruby: Python 
 coroutines are colored and Ruby Fibers (appeared in 1.9) are not.
 
