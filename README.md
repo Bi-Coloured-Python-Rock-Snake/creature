@@ -24,7 +24,7 @@ the "colored
 functions" approach (first made known by a [post](
 https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) 
 of Bob Nystrom),
-and the other one does not. A vivid example is Python vs. Ruby: Python 
+and the other one does not. A vivid example is **Python vs. Ruby**: Python 
 coroutines are colored and Ruby Fibers (appeared in 1.9) are not.
 
 As you can 
