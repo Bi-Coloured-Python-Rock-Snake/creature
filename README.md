@@ -2,9 +2,10 @@
 
 ## Intro
 
-Hi! This is a project demonstrating the use of greenlet as a bridge to async 
-code. It can make code that was written for blocking I/O to work with async I/O.
-An example can an ORM that has used blocking database drivers before and 
+This project demonstrates the use of greenlet as a bridge to async 
+code. It can make code that written for blocking I/O to work with async I/O.
+An example can be an ORM that previously used blocking 
+database drivers and 
 starts using an async database driver.
 
 Actually, it was not intended as a demo from the start - it was intended to be
@@ -21,13 +22,13 @@ for REPL, context managers, iterators, context vars.
 The thing is there are two approaches to async programming: one uses 
 the "colored 
 functions" (first made known by a [post](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) of Bob Nystrom)
-and the other one is not. A vivid example is Python vs. Ruby: Python 
+and the other one does not. A vivid example is Python vs. Ruby: Python 
 coroutines are colored and Ruby Fibers (appeared in 1.9) are not.
 
 As you can 
 see, this repository is placed in the "Bi-Coloured-Python-Rock-Snake" group. 
-I titled it that way when I thought the function colors is a bad thing, and 
-then I came to a conclusion that the matter is far from unambiguity. There 
+When I titled it that way, I considered function colors a bad thing, however I 
+have come to a conclusion that the matter is far from unambiguity. There 
 are many nuances to this but shortly speaking, I embraced the Python way of 
 things.
 
