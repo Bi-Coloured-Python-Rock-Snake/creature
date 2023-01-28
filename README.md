@@ -1,6 +1,40 @@
 # greenhack
 
-This package lets you make a bridge between yor sync and async code.
+## Intro
+
+Hi! This is a project demonstrating that code not using the async/await 
+(because it was intended to use with blocking I/O, for example) can be made 
+compatible with async code by using greenlets as a bridge.
+
+Actually, it was not intended as a demo from the start - it was intended to be
+used in production, therefore the code quality is good. Actually, I have 
+written an 
+async 
+django database [backend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend)
+that is using it.
+
+The same approach is used by sqlalchemy to provide its async features, however, 
+this library is more advanced in terms of features as it provides support 
+for REPL, context managers, iterators, context vars.
+
+The thing is there are two approaches to async programming: one uses 
+the "colored 
+functions" (first made known by a [post](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) of Bob Nystrom)
+and the other one is not. A vivid example is Python vs. Ruby: Python 
+coroutines are colored and Ruby Fibers (appeared in 1.9) are not.
+
+As you can 
+see, this repository is placed in the "Bi-Coloured-Python-Rock-Snake" group. 
+I titled it that way when I thought the function colors is a bad thing, and 
+then I came to a conclusion that the matter is far from unambiguity. There 
+are many nuances to this but shortly speaking, I embraced the Python way of 
+things.
+
+Still, the library can be a nice demo of what sqlalchemy is doing under the hood
+
+## Description
+
+This package lets you make a bridge between the sync and async code.
 It allows for sync-looking API to have async implementation under the hood.
 It does that by using
 [greenlet](https://github.com/python-greenlet/greenlet).
@@ -172,6 +206,3 @@ async def counter():
 
 assert list(counter()) == [0, 1, 2]
 ```
-
-Good luck with greenhack! You can read more on the "mixed I/O" approach 
-[here](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend/blob/main/mixed-io.md).
