@@ -2,8 +2,8 @@
 
 ## Intro
 
-This project demonstrates the use of greenlet as a bridge to async 
-code. It can make code written for blocking I/O to work with async I/O.
+This project demonstrates the use of **greenlet as a bridge to async 
+code**. It can make code written for blocking I/O to work with async I/O.
 An example can be an ORM that previously used blocking 
 database drivers and 
 starts using an async database driver.
