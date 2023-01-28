@@ -12,8 +12,7 @@ Actually, it was not intended as a demo from the start - it was intended to be
 used in production, therefore the code quality is good. Actually, I have 
 written an 
 async 
-django database [backend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend)
-that is using it.
+django database [backend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbackend) using it.
 
 The same approach is used by sqlalchemy to provide its async features, however, 
 this library is more advanced in terms of features as it provides support 
