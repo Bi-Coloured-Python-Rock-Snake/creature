@@ -18,7 +18,7 @@ The same approach is used by sqlalchemy to provide its async features. However,
 this library is more advanced in terms of features as it **provides support 
 for REPL, context managers, iterators, context vars**.
 
-However, I decided to discontinue it. The thing is there are two approaches to 
+However, I decided to discontinue it. The thing is, there are two approaches to 
 async programming: one uses 
 the "colored 
 functions" approach (a term first used in a [post](
