@@ -8,7 +8,7 @@ An example can be an ORM that previously used blocking
 database drivers and 
 starts using an async database driver.
 
-Actually, it was not intended as a demo from the start - it was intended to be
+Actually, it was not intended as a demo from the start, it was intended to be
 used in production, therefore the code quality is good. Actually, I have 
 written an 
 async 
