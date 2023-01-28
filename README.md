@@ -16,8 +16,7 @@ django database [backend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbac
 
 The same approach is used by sqlalchemy to provide its async features, however, 
 this library is more advanced in terms of features as it **provides support 
-for REPL, context managers, iterators, context vars**. The name is a tribute 
-to sqlalchemy too.
+for REPL, context managers, iterators, context vars**.
 
 However, I decided to discontinue it. The thing is there are two approaches to 
 async programming: one uses 
@@ -37,7 +36,8 @@ are many nuances to this but shortly speaking, I embraced the Python way of
 things.
 
 Still, the library can be a nice demo of what sqlalchemy is doing under the 
-hood.
+hood. The name is a tribute 
+to sqlalchemy.
 
 ## Description
 
