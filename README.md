@@ -119,11 +119,13 @@ download('https://www.python.org')
 
 Which will print the same.
 
-**Note:** *start_loop() doesn't work in IPython REPL*
+**The REPL**
 
+start_loop() doesn't work in IPython REPL. It works in PyCharm Console though.
 The reason is that IPython starts the asyncio loop itself. The 
-prompt_toolkit used by IPython, also needs one. So, for IPython there is a 
-different solution
+prompt_toolkit used by IPython, also needs an async loop. So, for IPython there 
+is a 
+different solution:
 
 ```python
 import greenhack; greenhack.ipy.enable()
