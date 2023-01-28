@@ -136,8 +136,7 @@ is a
 different solution:
 
 ```python
-import creature;
-
+import creature
 creature.ipy.enable()
 ```
 
