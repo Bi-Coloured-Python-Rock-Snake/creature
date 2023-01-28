@@ -2,9 +2,10 @@
 
 ## Intro
 
-Hi! This is a project demonstrating that code not using the async/await 
-(because it was intended to use with blocking I/O, for example) can be made 
-compatible with async code by using greenlets as a bridge.
+Hi! This is a project demonstrating the use of greenlet as a bridge to async 
+code. It can make code that was written for blocking I/O to work with async I/O.
+An example can an ORM that has used blocking database drivers before and 
+starts using an async database driver.
 
 Actually, it was not intended as a demo from the start - it was intended to be
 used in production, therefore the code quality is good. Actually, I have 
@@ -30,7 +31,8 @@ then I came to a conclusion that the matter is far from unambiguity. There
 are many nuances to this but shortly speaking, I embraced the Python way of 
 things.
 
-Still, the library can be a nice demo of what sqlalchemy is doing under the hood
+Still, the library can be a nice demo of what sqlalchemy is doing under the 
+hood.
 
 ## Description
 
