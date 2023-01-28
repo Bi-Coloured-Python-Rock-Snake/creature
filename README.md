@@ -18,7 +18,8 @@ The same approach is used by sqlalchemy to provide its async features, however,
 this library is more advanced in terms of features as it provides support 
 for REPL, context managers, iterators, context vars.
 
-The thing is there are two approaches to async programming: one uses 
+However, I decided to discontinue it. The thing is there are two approaches to 
+async programming: one uses 
 the "colored 
 functions" (first made known by a [post](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) of Bob Nystrom)
 and the other one does not. A vivid example is Python vs. Ruby: Python 
