@@ -121,7 +121,8 @@ Which will print the same.
 
 **The REPL**
 
-start_loop() doesn't work in IPython REPL. It works in PyCharm Console though.
+start_loop() doesn't work in IPython REPL. It works in the PyCharm Console 
+though.
 The reason is that IPython starts the asyncio loop itself. The 
 prompt_toolkit used by IPython, also needs an async loop.
 
