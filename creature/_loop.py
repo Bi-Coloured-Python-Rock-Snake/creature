@@ -3,7 +3,7 @@ from typing import Awaitable
 
 import greenlet
 
-from greenhack.context_managers import AsyncExitCm
+from creature.context_managers import AsyncExitCm
 
 
 async def _loop(task):

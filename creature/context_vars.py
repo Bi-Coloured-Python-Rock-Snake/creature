@@ -47,7 +47,7 @@ context_var = ContextVariable
 
 
 if __name__ == '__main__':
-    from greenhack import exempt, start_loop, as_async
+    from creature import exempt, start_loop, as_async
 
     start_loop()
 

@@ -1,4 +1,4 @@
-# greenhack
+# creature
 
 ## Intro
 
@@ -16,7 +16,8 @@ django database [backend](https://github.com/Bi-Coloured-Python-Rock-Snake/pgbac
 
 The same approach is used by sqlalchemy to provide its async features, however, 
 this library is more advanced in terms of features as it **provides support 
-for REPL, context managers, iterators, context vars**.
+for REPL, context managers, iterators, context vars**. The name is a tribute 
+to sqlalchemy too.
 
 However, I decided to discontinue it. The thing is there are two approaches to 
 async programming: one uses 
@@ -54,7 +55,7 @@ while the sync greenlet doesn't do any I/O itself.
 ## Install
 
 ```
-pip install greenhack
+pip install creature
 ```
 
 ## Usage
@@ -62,12 +63,14 @@ pip install greenhack
 You can turn an async function into a sync one by using `exempt` decorator:
 
 ```python
-from greenhack import exempt
+from creature import exempt
+
 
 @exempt
 async def sleep(secs):
     await asyncio.sleep(secs)
     print(f'Slept for {secs} seconds')
+
 
 @exempt
 async def download(url):
@@ -87,12 +90,14 @@ You can use `as_async` decorator to make the main function async again and
 run it with an event loop:
 
 ```python
-from greenhack import as_async
+from creature import as_async
+
 
 @as_async
 def main():
     sleep(0.5)
     download('https://www.python.org')
+
 
 asyncio.run(main())
 ```
@@ -109,9 +114,10 @@ Downloaded 50856 bytes
 You can also start an event loop yourself - this may be useful for interactive 
 use or scripts.
 
-
 ```python
-import greenhack; greenhack.start_loop()
+import creature;
+
+creature.start_loop()
 
 sleep(0.5)
 download('https://www.python.org')
@@ -131,7 +137,9 @@ is a
 different solution:
 
 ```python
-import greenhack; greenhack.ipy.enable()
+import creature;
+
+creature.ipy.enable()
 ```
 
 This works in both PyCharm Console and IPython.
@@ -139,7 +147,7 @@ This works in both PyCharm Console and IPython.
 **Context vars**
 
 asyncio has `contextvars` module that gives coroutines access to their 
-"context". greenhack has its own contextvars for the very same purpose.
+"context". creature has its own contextvars for the very same purpose.
 
 greenlet itself has support for contextvars: all greenlets have different 
 contexts.
@@ -150,9 +158,9 @@ The class intentionally is called context_var, not to import the standard
 ContextVar by mistake.
 
 ```python
-greenhack.start_loop()
+creature.start_loop()
 
-var = greenhack.context_var(__name__, 'var', default=-1)
+var = creature.context_var(__name__, 'var', default=-1)
 
 
 @exempt
@@ -174,7 +182,7 @@ As you can see, sync and async functions can use shared context.
 **Context managers**
 
 Functions are not the only thing you can come across, sometimes you have to 
-deal with context managers too. greenhack can map async context managers to the 
+deal with context managers too. creature can map async context managers to the 
 sync ones. Here is how it is done:
 
 ```python

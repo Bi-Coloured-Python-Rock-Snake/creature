@@ -3,9 +3,9 @@ from functools import wraps
 
 import greenlet
 
-from greenhack._loop import _loop
-from greenhack.context_vars import get_contextvars
-from greenhack.exempt import exempt
+from creature._loop import _loop
+from creature.context_vars import get_contextvars
+from creature.exempt import exempt
 
 
 def as_async(fn=None):

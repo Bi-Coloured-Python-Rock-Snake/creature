@@ -2,7 +2,7 @@ import asyncio
 import typing
 from functools import wraps
 
-from greenhack import exempt
+from creature import exempt
 
 
 class ExemptIt(typing.NamedTuple):
@@ -43,7 +43,7 @@ universal_it = exempt_it
 
 
 if __name__ == '__main__':
-    import greenhack; greenhack.start_loop()
+    import creature; creature.start_loop()
 
     @exempt_it
     async def counter():

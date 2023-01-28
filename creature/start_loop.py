@@ -2,8 +2,8 @@ import asyncio
 
 import greenlet
 
-from greenhack._loop import _loop
-from greenhack.exempt import exempt
+from creature._loop import _loop
+from creature.exempt import exempt
 
 
 #spawn_loop

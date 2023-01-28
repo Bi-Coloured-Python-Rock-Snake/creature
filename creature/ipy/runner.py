@@ -1,11 +1,9 @@
 import greenlet
+from IPython.core.async_helpers import _pseudo_sync_runner as sync_runner, _asyncio_runner
 from IPython.terminal.interactiveshell import TerminalInteractiveShell
 
-from greenhack._loop import _loop
-
-from IPython.core.async_helpers import _pseudo_sync_runner as sync_runner, _asyncio_runner
-
-from greenhack.ipy.descriptor import Overridable
+from creature._loop import _loop
+from creature.ipy.descriptor import Overridable
 
 
 def loop_runner(coro):

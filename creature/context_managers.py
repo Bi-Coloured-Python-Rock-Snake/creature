@@ -5,7 +5,7 @@ from typing import AsyncContextManager
 
 import greenlet
 
-import greenhack
+import creature
 
 
 class ExemptCm(typing.NamedTuple):
@@ -62,7 +62,7 @@ universal_cm = exempt_cm
 
 
 if __name__ == '__main__':
-    from greenhack import exempt_cm
+    from creature import exempt_cm
 
     @exempt_cm
     @asynccontextmanager
@@ -71,7 +71,7 @@ if __name__ == '__main__':
         yield
         print('>', end='')
 
-    greenhack.start_loop()
+    creature.start_loop()
 
     with cm():
         pass
