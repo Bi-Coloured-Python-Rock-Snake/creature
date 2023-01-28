@@ -29,7 +29,8 @@ coroutines are colored and Ruby Fibers (appeared in 1.9) are not.
 
 As you can 
 see, this repository is placed in the "Bi-Coloured-Python-Rock-Snake" group. 
-When I titled it that way, I considered function colors a bad thing, however I 
+When was giving it that title, I considered function colors to be a bad thing, 
+however I 
 have come to a conclusion that the matter of things is far from 
 unambiguity. There 
 are many nuances to this but shortly speaking, I embraced the **Python way of 
