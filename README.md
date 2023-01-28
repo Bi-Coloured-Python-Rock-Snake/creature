@@ -33,8 +33,8 @@ When was giving it that title, I considered function colors to be a bad thing,
 however I 
 have come to a conclusion that the matter of things is far from 
 unambiguity. There 
-are many nuances to this but shortly speaking, I embraced the **Python way of 
-things**.
+are many nuances to this but shortly speaking, I embraced the Python way of 
+things.
 
 Still, the library can be a nice demo of what sqlalchemy is doing under the 
 hood. The name is a tribute 
