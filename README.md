@@ -115,8 +115,7 @@ You can also start an event loop yourself - this may be useful for interactive
 use or scripts.
 
 ```python
-import creature;
-
+import creature
 creature.start_loop()
 
 sleep(0.5)
