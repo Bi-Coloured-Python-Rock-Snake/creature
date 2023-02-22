@@ -6,6 +6,7 @@ import greenlet
 from creature.context_managers import AsyncExitCm
 
 
+#TODO support special values
 async def _loop(task):
     """
     This is the loop the async greenlet executes.
